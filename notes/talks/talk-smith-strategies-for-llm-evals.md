@@ -1,0 +1,40 @@
+# Notes — "Strategies for LLM Evals (harnesses workshop)"
+**Speaker/Guest:** Taylor Jordan Smith · **Venue:** AI Engineer 2025 · **Type:** talk · **URL:** https://www.youtube.com/watch?v=89NuzmKokIk
+
+## Summary (3-6 sentences — what it argues, why it matters for agent evals)
+This is a hands-on workshop (not a polished keynote) from a Red Hat AI developer advocate that frames evals as the discipline enterprises need to safely move LLMs into production. Its central organizing idea is an evaluation pyramid borrowed from the software-testing pyramid: start at the base with **system/inference performance** (latency, throughput, GPU utilization), then move up through **formatting**, **factual accuracy** (benchmarks like MMLU), and finally **safety/bias and custom evals**. It argues you should evaluate **incrementally and component-by-component** rather than trying to eval an entire multi-agent system end-to-end on day one, and that eval choice is dictated by system type (RAG → Ragas/chunk-retrieval evals; agents → function/tool-calling evals). It distinguishes benchmarking (controlled datasets/tasks for cross-model comparison, a *subcategory* of evaluation) from evaluation (comprehensive end-to-end assessment). The practical payload is a tour of three concrete open-source harnesses — GuideLLM, lm-evaluation-harness, and Promptfoo — each mapped to a pyramid layer. The recurring thesis is that evals belong in CI/CD, the same way unit tests do.
+
+## Key points (6-14 substantive bullets)
+- **The evaluation pyramid (the talk's core framework):** base = system performance (throughput, inter-token latency, GPU utilization); next = formatting (e.g. "religiously" valid JSON output for downstream apps); next = factual accuracy (e.g. MMLU, plus accuracy on fine-tuned proprietary data); top = safety, bias, and application-specific custom evals. Explicitly mirrors the unit → integration → UI/end-to-end software testing pyramid.
+- **Benchmark vs. eval definition:** "benchmarking is just a subcategory of evaluation." Benchmarking = controlled, specific datasets and tasks used to compare models against one another (latency scores across hardware, MMLU); evaluation = comprehensive end-to-end assessment of many components.
+- **Incremental, component-first strategy:** you *could* eval every single part of a system, but that's time/resource-expensive up front. Start narrow (e.g. just chunk retrieval in a RAG system, or just a latency/throughput benchmark on the LLM output), then branch out by priority into a full-system eval covering the integration layer and UI end-to-end.
+- **Eval choice follows system architecture:** RAG → Ragas-style retrieval evals; agents → function/tool-calling capability evals. Requires architecture scoping and planning in advance.
+- **Harness #1 — GuideLLM (system performance):** a newer project tied to the vLLM inference runtime. Flow: pick model, pick dataset, measure throughput / inter-token latency / time-to-first-token; visualize in a built-in UI. Primary knob is adjusting **input and output token counts** to match the use case (chatbot vs RAG). Outputs mean/median/P99 (P99 matters for SLOs) and can emit JSON.
+- **Harness #2 — lm-evaluation-harness (factual accuracy):** ran **MMLU Pro** (chosen because it took the *least* time — still ~10 minutes). The harness exposes many other benchmarks in the same framework.
+- **Harness #3 — Promptfoo (safety/bias + custom):** used for a safety-focused example; emphasized as the flexible "do all kinds of custom tests" tool with many examples in its repo.
+- **War-story: the Google "glue on pizza" AI Overview incident** — caused by satirical Reddit content surfacing without mitigation to detect satire. Used to motivate RAG mitigations and safeguarding triggers, ideally *before* release.
+- **War-story: "MAD" / model autophagy** — each model generation consumes more AI-generated synthetic data, drifting from the original human-anchored data, causing loss of output diversity and precision; accuracy evals are how you detect this.
+- **Bias example: Stable Diffusion** — Euro-centric/US-centric internet training data skews outputs; Google and the Stable Diffusion project added evaluation frameworks and bias-mitigation guardrails in response.
+- **Enterprise inference pain points:** manual setup of eval runs with many parameters; heavy compute cost of perf evals; dataset/model compatibility; right-sizing hardware for GPU investment; and cost estimation as "black magic" (you have to backwards-map inference performance to tokens).
+- **vLLM serving practicalities:** vLLM is safetensors-compatible (no model-format conversion like TRT requires), needs less config/space; reducing the max context window makes runs faster. Workshop served an IBM Granite (2B/8B) model on an L4 GPU.
+- **Enterprise maturity path:** orgs don't start with multi-agent frameworks — they progress chatbot → RAG → agents, and most are still in the first three phases. Evals must be a continuous CI process because "you're not going to catch everything."
+- **Audience Q&A → the missing concept:** an attendee asked what to call connecting offline prompt/dataset evals to live production performance; Smith's answer was that this is evals in a **CI/CD format** — eval tests wired into the pipeline the same way unit tests are.
+
+## Verified quotes
+- "benchmarking is just a subcategory of evaluation. Evaluation is a comprehensive process to assess a model end to end... Benchmarking is very specifically controlled specific data sets and specific tasks typically used to compare models against one another." [09:44]
+- "no matter how good your model is, if it's not fast, if it's not reliable, if it's not affordable, you're screwed a little bit from the get-go." [05:01]
+- "you could literally evaluate every single part of things but that's going to be time and resource extensive to set up immediately. So you likely want to take an incremental approach with these types of setups." [12:12]
+- "cost estimating is a little bit of a black magic thing... you have to like backwards math-map inference performance to tokens and it's a whole thing." [06:56]
+- "you should have a CI/CD framework that includes these evaluation tests just like for unit testing setups." [31:52]
+- "we kind of moved up the pyramid throughout the activity. So hopefully you get a sense of... how you can layer this approach when you're looking at and trying to plan for how to strategically implement evals across your entire system." [30:28]
+
+*(Lightly fixed obvious ASR errors in quotes: "math-map" and "inference" were auto-captioned as "mathmap"/"imperence"; "GuideLLM" appears as "guide LLM"/"guide lm" and "lm-evaluation-harness" as "MLE valh harness" in the raw transcript. Wording is otherwise faithful.)*
+
+## What it adds (non-obvious, talk-specific value vs canonical written sources)
+- A **concrete harness-to-pyramid mapping** that most written eval guides leave abstract: GuideLLM for the perf base, lm-evaluation-harness/MMLU Pro for accuracy, Promptfoo for safety/custom — all open-source and forkable, with the explicit suggestion to fork MMLU and swap in proprietary fine-tuning data for accuracy evals.
+- Strong emphasis on the **inference/performance layer as the foundation of evals** — latency, throughput, time-to-first-token, P99 for SLOs, GPU sizing — a layer the "LLM-as-judge / accuracy" eval literature usually ignores entirely. The talk insists perf is the base of the pyramid, not an afterthought.
+- The honest enterprise-operator texture: cost estimation as "black magic," most customers stuck in the chatbot→RAG→early-agent phases, policy restrictions on which models employees can even use — grounding evals in real adoption constraints rather than frontier-lab assumptions.
+- A clean, repeatable **incremental rollout recipe** (eval one component → branch out by priority → full-system integration/UI evals) that maps the testing pyramid onto eval program design.
+
+## Themes
+1 why-evals · 3 model/harness/skill · 4 observability · 5 eval infra · 6 benchmark-vs-eval · 8 judge/verifiers · 9 agent-specific · 10 safety

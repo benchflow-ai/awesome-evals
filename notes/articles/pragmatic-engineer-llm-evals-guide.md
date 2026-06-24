@@ -1,0 +1,32 @@
+# Notes — "A pragmatic guide to LLM evals for devs"
+
+**Author:** Gergely Orosz (The Pragmatic Engineer), guest-authored by Hamel Husain · **URL:** https://newsletter.pragmaticengineer.com/p/evals · **Type:** newsletter · **Found:** true
+
+## Summary (3-6 sentences)
+A practitioner walkthrough of how working engineers should build evals for non-deterministic LLM features, written by Hamel Husain (ML engineer, ~20 years' experience; co-creator of the "AI Evals for Engineers & PMs" course and a forthcoming O'Reilly book) and published in Gergely Orosz's Pragmatic Engineer newsletter. The throughline is escaping "vibe-check development" — change a prompt, eyeball a few outputs, ship — in favor of a disciplined, data-driven loop borrowed from ML and qualitative social science. The core technique is **error analysis**: build a custom data viewer, read at least 100 real traces, do open coding (free-text notes on failures) then axial coding (cluster into a taxonomy), and prioritize fixes by failure frequency via a pivot table. From that taxonomy you derive two eval types — cheap deterministic **code-based evals** for objective failures and **LLM-as-judge** for subjective calls, using binary PASS/FAIL rather than 1–5 ratings. It is grounded in a single recurring case study (NurtureBoss, an AI apartment-leasing assistant), which gives the abstractions concrete war-story texture. The later "build an LLM-as-judge" mechanics sit behind the paywall.
+
+## Key points (5-12 substantive bullets)
+- **The three "gulfs" framing** organizes why LLM apps fail: Gulf of Comprehension (you can't read all your data/behavior at scale), Gulf of Specification (your prompt doesn't actually say what you meant), and Gulf of Generalization (even a good prompt won't apply reliably across all inputs). Evals are the instruments that close these gulfs.
+- **Error analysis is the high-ROI starting point**, explicitly preferred over reaching for generic off-the-shelf metrics like "hallucination score" or "helpfulness." The method is bottom-up, adapted from grounded theory in qualitative research plus standard ML error analysis.
+- **Build a custom data viewer first.** NurtureBoss spent a few hours building a simple bespoke web tool showing the full conversation context (user query, agent response, tool calls, property data) on one screen — and found it faster for review than generic observability platforms (LangSmith, Arize, Braintrust are named).
+- **Read ≥100 diverse traces and do open coding** — free-text notes describing each problem, focusing on **the first upstream failure** in the pipeline. Real example annotations: "It asked to send a text confirmation twice in a row" and "Once the user asked to be transferred to a human, the agent kept trying to solve the problem instead of just making the handoff."
+- **Axial coding turns notes into a taxonomy** of 5–10 themed failure categories; an LLM can suggest the initial clusters but a human finalizes them. Then a **pivot table counts frequency** to prioritize. For NurtureBoss three modes dominated: date handling, human-handoff failures, and conversation-flow issues.
+- **Two eval types map to two failure types.** Code-based (deterministic) evals for objective, verifiable outputs — e.g., parsing dates from "can I see the apartment on July 4th, 2026?" — built against a **golden dataset** covering absolute dates, relative dates ("next Tuesday," "tomorrow"), and edge cases ("the 31st" in months without 31 days). These are cheap to create/maintain and run every commit to catch regressions.
+- **LLM-as-judge for subjective failures** (e.g., when to hand off to a human). The judge dataset pairs conversation traces with domain-expert PASS/FAIL labels *and* written critiques explaining each decision — the critiques are what later align the judge.
+- **Binary PASS/FAIL beats Likert scales.** The argument: distinctions between 1–5 points are inconsistent and subjective, while a binary forces clarity on acceptable vs unacceptable. "A 'fail' is a clear signal to fix a bug, whereas a '3' is an ambiguous signal."
+- **Synthetic data bootstraps the loop before you have users** — use a strong LLM to generate diverse, realistic edge-case scenarios so error analysis can begin pre-launch.
+- **The improvement flywheel:** Analyze → Measure → Improve → (Automate) → Repeat — evals are not a one-off test suite but a continuous, data-driven development cycle.
+
+## Verified quotes (verbatim, from https://newsletter.pragmaticengineer.com/p/evals)
+- "Using a PASS/FAIL judgment works better than a points rating."
+- "a 'fail' is a clear signal to fix a bug, whereas a '3' is an ambiguous signal"
+- "LLM pipelines are causal systems; a single error in an early step like misinterpreting user intent often creates a cascade of downstream issues."
+- Gulf of Specification: "The gap between what we _want_ the LLM to do, and what our prompts _actually instruct_ it to do."
+
+## What it adds / why it's good (the non-BS practitioner value vs the obvious sources)
+This is the rare evals piece written *for shipping engineers*, not researchers or tool buyers, and it earns trust by (a) being concrete about a single real product (NurtureBoss) with verbatim failure annotations, and (b) being willing to tell you to *not* buy the obvious thing — generic metrics are "often worse than useless," and a hand-built data viewer can beat the marquee observability SaaS tools. The error-analysis-first sequencing (look at your data → taxonomy → only then write evals) is the antidote to the common failure of teams who start by wiring up "hallucination scores" they never act on. The "first upstream failure" heuristic and the cheap-code-evals-vs-LLM-judge split are immediately actionable. Its main limitation as a reference: the actual LLM-judge construction, judge-validation, and production-monitoring mechanics are paywalled, so it points at the method more than it fully hands it over. It pairs naturally with Hamel Husain's own deeper writing and Eugene Yan's eval notes, but is the better single link to give a skeptical engineer asking "why do I even need evals?"
+
+## Themes
+1 why-evals · 3 model/harness/skill · 4 observability · 5 eval infra · 8 judge/verifiers · 9 agent-specific
+
+Sources: [A pragmatic guide to LLM evals for devs](https://newsletter.pragmaticengineer.com/p/evals) · [Hamel Husain note on the collaboration](https://substack.com/@hamelhusain/note/c-183437835)

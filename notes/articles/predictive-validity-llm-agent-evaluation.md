@@ -1,0 +1,34 @@
+# Notes — "Beyond Static Leaderboards: Predictive Validity for the Evaluation of LLM Agents"
+
+**Author:** Dhaval C. Patel et al. (IBM Research; ~60+ co-authors, incl. Columbia HPML) · **URL:** https://arxiv.org/abs/2606.19704 · **Type:** paper · **Found:** true
+
+## Summary
+This paper consolidates fourteen parallel extension studies of an industrial MCP-based agent benchmark (AssetOpsBench), spanning ~6,000 judged trajectories across six extension axes (asset class, orchestration, knowledge/retrieval, infrastructure, reasoning mode, evaluation methodology). Its central empirical hook comes from a 149-team agentic competition where the Spearman correlation between public-leaderboard rankings and hidden-evaluation rankings was ρ=−0.13 on the execution track — statistically indistinguishable from zero. The authors argue that aggregate-score leaderboards systematically underspecify the dimensions on which deployed agents are actually judged, and that mean score is the wrong ranking criterion. Their corrective is to rank agents by **predictive validity** — the correlation between in-sample rank and out-of-sample rank — supported by a twelve-tier measurement apparatus and three falsifiable out-of-distribution (OOD) criteria. The framing reframes evaluation as a question of *rank transfer under distribution shift* rather than headline accuracy.
+
+## Key points
+- **The killer stat:** In a 149-team agentic competition, public-to-hidden leaderboard rank correlation was ρ=−0.13 (n=13, execution track) — essentially zero, and slightly negative. Public standings did not predict hidden performance at all.
+- **Core thesis:** "The right ranking criterion is therefore predictive validity: the correlation between in-sample rank and out-of-sample rank, not in-sample mean." Leaderboards optimize the wrong target.
+- **Why aggregation fails:** Mean scores collapse qualitatively distinct behaviors into one number — "Aggregate scores treat these as equivalent; deployment treats them as not." Distinct failure modes hide behind identical headline scores.
+- **Deployment ≠ leaderboard:** "Deployed systems do not encounter the training set or the leaderboard set." They face (i) distributionally-similar held-out cases, (ii) cross-domain transfer, or (iii) adversarial user phrasing — none of which a static leaderboard measures.
+- **Twelve-tier measurement framework.** Core capability (T1–T7): T1 Success (pass/fail), T2 Tool-Call Hygiene, T3 Planning Quality, T4 Capability Axes, T5 Cost & Efficiency, T6 Failure Modes, T7 Integrity & Reproducibility. Deployment extensions (T8–T12): T8 Deployment Infrastructure, T9 Multi-Turn Dialog, T10 Reasoning Mode, T11 Knowledge Augmentation, T12 Evidence Grounding & Verification.
+- **Three falsifiable OOD criteria** (escalating shift): A) Held-Out Scenarios (mild shift); B) Cross-Subset Transfer (rank on k−1 subsets, test on held-out); C) Adversarial Perturbation (paraphrases, identifier renaming, time-window shifting, distractor injection).
+- **Scale of evidence:** ~6,000 judged trajectories, fourteen parallel implementation studies, six extension axes — framed as the largest coordinated extension of a single agent benchmark.
+- **Coverage gap motivation:** "no single benchmark touches more than four or five of the dimensions that deployment exposes" — agents add trajectory- and orchestration-level axes that HELM/Dynabench-style frameworks don't score.
+- **Honest cost caveat:** measuring predictive validity is more expensive than aggregate scoring and could concentrate evaluation capacity in well-resourced institutions; they recommend community-maintained reference adversarial-perturbation suites and rule pipelines to mitigate this.
+
+## Verified quotes
+- "In a recent 149-team agentic competition (Patel et al., 2026), the Spearman correlation between public-leaderboard rankings and hidden-evaluation rankings was ρ=−0.13 on the execution track (n=13, statistically indistinguishable from zero)." — https://arxiv.org/html/2606.19704v1
+- "The right ranking criterion is therefore predictive validity: the correlation between in-sample rank and out-of-sample rank, not in-sample mean." — https://arxiv.org/html/2606.19704v1
+- "Deployed systems do not encounter the training set or the leaderboard set. They encounter scenarios that are either (i) distributionally similar to held-out cases, (ii) distributionally distinct (cross-domain transfer), or (iii) adversarially perturbed by user phrasing." — https://arxiv.org/html/2606.19704v1
+- "Aggregate scores treat these as equivalent; deployment treats them as not." — https://arxiv.org/html/2606.19704v1
+- "Agent benchmarks are growing fast, but no single benchmark touches more than four or five of the dimensions that deployment exposes." — https://arxiv.org/html/2606.19704v1
+
+## What it adds / why it's good
+Most leaderboard critiques (e.g. the Leaderboard Illusion) attack *gaming, contamination, or arena dynamics*. This paper attacks something more fundamental and rarely measured: **rank transfer under distribution shift**, and it ships a hard number for it (ρ=−0.13 from a real 149-team competition). That's a falsifiable, quantitative indictment of the entire "mean score → ranking" pipeline, not just a complaint about a specific leaderboard. The reframing — that the metric you should optimize is the *correlation of in-sample to out-of-sample rank*, not the score itself — is genuinely actionable and borrows construct-validity language from psychometrics in a way agent evals badly need. The twelve-tier apparatus and the three escalating OOD criteria (held-out → cross-subset → adversarial) give a concrete protocol rather than just a manifesto. The non-BS value: it operationalizes "does the leaderboard predict deployment?" as a measurable quantity. Caveats worth flagging: the n=13 sample on the execution track is tiny (one negative correlation is not the same as a robust effect across many competitions), the work is heavily tied to one IBM industrial benchmark (AssetOpsBench/MCP) so external validity is unproven, and the 60+ author / fourteen-study structure reads partly as a coordinated class/course effort. Treat the ρ=−0.13 figure as a striking existence proof, not a settled population estimate.
+
+## Themes
+- **1 why-evals** — direct evidence that leaderboards don't predict what they claim to.
+- **6 benchmark-vs-eval/integrity** — core contribution: predictive validity vs aggregate score; includes a dedicated Integrity & Reproducibility tier (T7).
+- **9 agent-specific** — trajectory/orchestration-level axes, MCP agent benchmark, multi-turn and reasoning-mode tiers.
+- **10 safety/adversarial** — Criterion C adversarial perturbation suite (paraphrase, identifier renaming, distractor injection) as a ranking stressor.
+- (Secondary) **5 eval infra** — twelve-tier apparatus and reference perturbation pipelines proposed as community artifacts.

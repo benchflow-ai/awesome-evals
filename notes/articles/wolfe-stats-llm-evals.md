@@ -1,0 +1,35 @@
+# Notes — "Applying Statistics to LLM Evaluations"
+
+**Author:** Cameron R. Wolfe (Ph.D.; Deep (Learning) Focus newsletter) · **URL:** https://cameronrwolfe.substack.com/p/stats-llm-evals · **Type:** newsletter · **Found:** true
+
+## Summary (3-6 sentences)
+Wolfe argues that LLM eval practice is statistically broken: results are reported with a "highest number is best" mentality, where a state-of-the-art score is bolded but never tested for significance, so teams routinely mistake noise for progress. The post is a from-first-principles statistics tutorial that reframes every eval score as an *estimate* with sampling error, and walks through the machinery to quantify that error: standard error and confidence intervals (via the Central Limit Theorem), clustered standard errors when questions aren't independent, variance decomposition (between-question vs. within-question), variance-reduction tricks (resampling, using token probabilities instead of binary correctness), paired-difference analysis for comparing two models, and power analysis for sizing a benchmark. It pairs the theory with a runnable Python reference implementation on toy data (two models, "Galleon" vs. "Dreadnought"). The throughline is practical: report mean ± SE, use paired tests when comparing models, prefer continuous metrics, and size your eval set before you run it. It also flags that CLT-based intervals break down below ~n=100, where Bayesian alternatives are safer.
+
+## Key points
+- **The core gap:** eval results are reported as point estimates with no significance test. Wolfe's fix is to treat each score as a sample mean with quantifiable sampling error — report **mean ± standard error**, with SE = s/√n (s = sample std dev, n = number of questions); 95% CI ≈ ±1.96·SE.
+- **CLT is the engine:** as n grows, the sample-mean distribution approaches normal, which is what licenses the confidence interval. He derives this rather than asserting it.
+- **Clustered standard errors:** when questions aren't independent (e.g., multiple prompts drawn from the same document), naive SE *underestimates* uncertainty. The clustered SE interpolates between perfectly-correlated and perfectly-uncorrelated within-cluster scores — and can inflate reported SE by ~3× in realistic cases. A genuinely under-discussed failure mode for agentic/multi-turn evals where trajectories share context.
+- **Variance decomposition (law of total variance):** model a score as s_i = x_i + ε_i and split sample-mean variance into **between-question variance** (difficulty spread) and **within-question variance** (stochastic generation/judging). This tells you *which* lever to pull to tighten your interval.
+- **Variance reduction:** (a) **resample** K outputs per question and average — cuts within-question variance by ~K; (b) when you have logits, use the **probability of the correct answer** directly instead of binary right/wrong, which drives within-question variance to zero (σ²_i = 0). For multi-token answers, take the product of per-token probabilities.
+- **Paired-difference analysis:** to compare models A and B, analyze per-question score *differences* rather than two separate CIs. Because models are positively correlated across questions (they agree on what's hard), pairing is a "free" variance reduction and yields more statistical power.
+- **Power analysis / sample sizing:** he derives n ∝ (z_{α/2}+z_β)²·variance / δ² to detect an effect of size δ at significance α and power 1−β. Key intuition: **halving the detectable effect requires ~4× the samples** (quadratic). Use this at *design* time to decide how big a benchmark needs to be.
+- **Small-n caveat:** cites companion work that CLT-based intervals fail when n < 100; recommends more robust strategies (e.g., Bayesian confidence intervals) in the small-sample regime.
+- **Benchmark-variance findings (citing prior research):** small benchmarks (COPA, HumanEval) have wide CIs; continuous metrics (log-likelihood) beat discrete binary correctness on signal-to-noise; reformulating MMLU into a completion/cloze format (MMLU-Cloze) substantially reduces variability.
+- **Explicit don't:** do **not** lower sampling temperature as a variance-reduction hack — it changes what you're measuring rather than measuring it better.
+- **Deliverable:** a Python reference implementation computing CLT and clustered SEs, CIs, paired comparisons, and power analysis on toy n=10 binary scores — copy-pasteable scaffolding, not just prose.
+
+## Verified quotes
+- "Evals are commonly run and reported with a highest number is best mentality; industry practice is to highlight a state-of-the-art result in bold, but not necessarily to test that result for any kind of statistical significance." — https://cameronrwolfe.substack.com/p/stats-llm-evals
+- "we want to avoid mistaking noise for progress and instead equip ourselves with the statistical tools needed to run informative model evaluations." — https://cameronrwolfe.substack.com/p/stats-llm-evals
+- "Because eval question scores are likely to be positively correlated, even across unrelated models, paired differences represent a 'free' reduction in estimator variance when comparing two models." — https://cameronrwolfe.substack.com/p/stats-llm-evals
+- "the distribution of our sample mean becomes approximately normal with sufficiently large n, as shown in the orange distribution above." — https://cameronrwolfe.substack.com/p/stats-llm-evals
+
+## What it adds / why it's good
+Most eval blogs stop at "build good test sets and use an LLM judge." This is one of the very few practitioner pieces that takes the next, harder step: **is the score you just reported even real, or is it within the noise floor?** It supplies the actual estimators — clustered SE for non-independent questions, paired-difference tests for model-vs-model comparison, power analysis for sizing — that let you answer that, and it does so with derivations plus runnable code rather than hand-waving. The clustered-SE point is especially valuable and rarely mentioned: it directly applies to agentic and multi-turn evals where sub-tasks share context and naive SE lies to you. The "halve the effect → 4× the samples" rule and the "use token probabilities to kill within-question variance" trick are concrete, immediately actionable, and not obvious from the standard eval canon. The small-n (<100) CLT-failure warning is a useful guardrail given how many real eval sets are tiny.
+
+## Themes
+- **1 why-evals** — central thesis is about trusting (or not) the numbers evals produce.
+- **6 benchmark-vs-eval** — heavily about benchmark variance, sizing, and what a score actually estimates.
+- **5 eval infra** — provides reusable statistical tooling/reference code for computing SE, CIs, paired tests, power.
+- **8 judge/verifiers** — touches within-question variance from stochastic judging and using token probabilities vs. binary correctness.
+- **9 agent-specific** — clustered SE for non-independent questions maps directly to multi-turn/agentic eval correlation.

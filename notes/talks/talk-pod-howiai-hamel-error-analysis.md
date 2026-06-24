@@ -1,0 +1,35 @@
+# Notes — "Evals, error analysis, and better prompts"
+**Speaker/Guest:** Hamel Husain (How I AI / Claire Vo) · **Venue:** How I AI · **Type:** podcast · **URL:** https://www.youtube.com/watch?v=PgzOBNse2EA
+
+## Summary
+Hamel Husain walks a product-leader audience through the concrete, unglamorous workflow that takes an AI product from "vibe-checked" to systematically improved: look at real traces, do *error analysis* (open coding + categorize + count), and only then write evals targeted at the errors you actually found. His central claim is that there is no magical automated system — you spend ~3 hours reading real chats, write one-sentence notes, bucket them, and count, which by itself produces "immense" quality gains. He argues that evals are infinite, so error analysis is the grounding step that tells you *which* eval to even write. The talk also covers the right way to build LLM-as-judge (binary, problem-specific, validated against human labels), agent-specific analysis via transition matrices, and where prompt engineering vs. fine-tuning fit. It matters for agent evals because it's a battle-tested, demo-driven account of the front of the eval funnel — the part most teams skip — illustrated with a real client (Nurture Boss, a leasing assistant).
+
+## Key points
+- **Looking at data is the whole game.** The "twist" for AI is the data shape (multi-turn traces, tool calls, retrieval) but the discipline is the same as a PM writing SQL and counting. [04:31]
+- **Real user inputs are vague and broken** in ways developers never test ("hello there what's up to four month rent"). Looking at production traces gets builders "out of their own mind" about how users actually interact. [10:53] [08:52]
+- **Error analysis = two steps.** (1) *Open coding*: read a randomly sampled ~100 traces and journal one note per trace on what went wrong; (2) categorize those notes (even by pasting into ChatGPT) and **count** the buckets. [14:34] [15:52]
+- **Stop at the most upstream error.** Errors are causal along the chain (prompt → tool call → retrieval → response); fixing the earliest one cascades downstream. It's a heuristic to keep the work tractable and get results fast. [15:58] [16:33]
+- **Counting is the payoff.** For Nurture Boss the top buckets were transfer/handoff issues, tour-scheduling issues (e.g., AI keeps scheduling new tours when asked to reschedule a nonexistent one), missing follow-ups, and incorrect info — turning an "intractable" pile into a prioritized fix list. [20:01]
+- **Error analysis tells you which eval to write.** "There's infinite eval" — analysis grounds you so you write a tour-scheduling eval and a handoff eval, and you *already have tagged data* to test them on. [23:54]
+- **Build a custom (vibe-coded) annotation tool.** Brain Trust / Arize Phoenix work, but a bespoke UI dialed to your channels (text/email/chatbot) and showing "already annotated?" filters + top-of-page stats removes friction so you can fly through traces. [17:43] [18:46]
+- **Two eval families:** code-based "unit tests" (deterministic, e.g., assert no UUIDs leak into the user-facing response) vs. LLM-judge for subjective calls (e.g., was the handoff handled). [27:13] [27:35]
+- **LLM-as-judge done right:** (1) binary good/bad per *specific* problem, not generic helpfulness/conciseness 1–5 dashboards ("4.2 → 4.7 — nobody knows what that means"); (2) hand-label data; (3) measure judge–human agreement so you can *trust* the judge. [30:40]
+- **Trust is the real risk.** The worst PM move is shipping an eval dashboard that says "good" while users experience broken — that's when stakeholders permanently lose trust in you. [31:18]
+- **"Who validates the validators."** People are bad at writing specs in the abstract; they only externalize what they want by reacting to concrete LLM outputs — so detailed notes/critique must precede a good judge prompt. [33:14]
+- **Fixes range from trivial to fine-tuning.** Low-hanging fruit was real (the system prompt didn't include today's date, so "schedule for tomorrow" silently failed). No magic prompt tricks — it's experimentation. Most teams should not fine-tune; but if you've built the eval infra, fine-tuning is "basically free" because you've already curated the hard, high-signal failure cases. [35:45] [36:48]
+- **Agent-specific tooling: transition matrices.** Map step→step (e.g., generate-SQL → execute-SQL) to localize where handoff errors cluster, then drill in; doubles as product-discovery signal about what users are trying to do. [38:51]
+- **Personal stack war-story:** Hamel runs his business as a monorepo of prompts/notes/data with CLAUDE rules, pointing Claude Code / open-hands / Cursor at it to avoid provider lock-in; uses Gemini for video→text ingestion; edits LLM output inline (AI Studio) so the edits become few-shot examples. [46:04] [51:48]
+
+## Verified quotes
+- "before you get into all that stuff you need to have some grounding in like what eval you should even write because there's infinite eval." [23:57]
+- "Just spend three hours of your afternoon, go through, read some of these chats, look at some of them with your human eyes, put one sentence notes on all of them, and then run a quick categorization exercise and get to work." [23:06] (Claire Vo recapping Hamel; lightly de-duplicated ASR stutters)
+- "you stop at the most upstream error you find... Because it's causal in nature." [15:58] [16:33]
+- "Helpfulness, truthfulness, conciseness, score, tone, whatever. What the hell does that mean? Does anyone know what that means? Nobody knows." [30:04]
+- "the system prompt didn't contain today's date. So when the person said hey can you do a schedule for tomorrow? AI had no idea... but didn't tell the user that. We just guessed." [35:49]
+- "if you do all this eval stuff, fine-tuning is basically free because you have all this infrastructure set up to do all these measurements and curate data... those difficult examples where your AI is not getting right. That's exactly the stuff you want to fine-tune on." [36:48]
+
+## What it adds
+Beyond Hamel's canonical written posts (the "Your AI Product Needs Evals" / LLM-judge guides), this is a *live screen-share* of the front-of-funnel that text under-conveys: watching him read raw, garbled production traces and react in real time makes visceral why synthetic-only test sets miss the real input distribution. The "stop at the most upstream error" heuristic and the count-the-buckets framing are stated as the practical move that makes error analysis tractable for non-ML people. The talk is also unusually candid about the *social* failure mode — losing stakeholder trust when the dashboard disagrees with lived experience — which is rarely in the methodological writeups. The transition-matrix tip for agents, and the reframe of fine-tuning as "free" once eval infra exists, are concrete agent/RL-adjacent nuggets. Finally, the closing monorepo-of-prompts segment is a tangible, reproducible personal-knowledge-base pattern (data + notes + prompts + CLAUDE rules, provider-agnostic).
+
+## Themes
+1 why-evals · 4 observability · 5 eval infra · 8 judge/verifiers · 9 agent-specific

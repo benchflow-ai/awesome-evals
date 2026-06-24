@@ -1,0 +1,37 @@
+# Notes — "Don't Pass@k: A Bayesian Framework for Large Language Model Evaluation"
+
+**Author:** Mohsen Hariri, Amirhossein Samandar, Michael Hinczewski, Vipin Chaudhary · **URL:** https://arxiv.org/abs/2510.04265 · **Type:** paper · **Found:** true
+
+## Summary
+This paper argues that Pass@k — the standard metric for reporting LLM reasoning performance — produces unstable and sometimes misleading rankings when sample counts are small and compute is constrained, which is precisely the regime of expensive agent and reasoning evaluations. It proposes a Bayesian replacement: model evaluation outcomes as categorical data with a Dirichlet prior, then report the posterior estimate of a model's underlying success probability together with a credible interval, rather than a single noisy point estimate. The framework gives closed-form posterior mean and uncertainty for any weighted rubric, and proves that under a uniform prior the posterior mean is order-equivalent to average accuracy (Pass@1) — explaining why avg@N is empirically robust while the Bayesian version adds principled uncertainty on top. Empirically, on AIME'24/'25, HMMT'25, and BrUMO'25 plus simulations with known ground truth, the posterior procedure converges faster and ranks models more stably than Pass@k at far smaller sample counts. The headline practical payoff is a transparent decision rule: differences are statistically meaningful when credible intervals don't overlap, and noise otherwise. Accepted to ICLR 2026; code at github.com/mohsenhariri/scorio.
+
+## Key points
+- **The target problem:** Pass@k is a point estimate that is high-variance at small N. With only a handful of expensive runs per task, Pass@k rankings can flip between evaluation runs, making "model A beats model B" claims unreliable.
+- **Core move:** treat a model's success on a task as a latent probability `p`, observe trials, and report the **Bayesian posterior over `p`** plus a **credible interval** instead of a raw frequency or a thresholded Pass@k.
+- **Categorical, not binary:** outcomes are modeled as categorical (not just 0/1) with a **Dirichlet prior**, so the same machinery covers graded / weighted-rubric scoring — judge scores, partial credit, multi-criterion rubrics — not just pass/fail.
+- **Closed form:** the Dirichlet–categorical conjugacy yields **analytic** expressions for the posterior mean and uncertainty of any weighted rubric. No bootstrap, no MCMC — you get intervals directly, cheaply.
+- **Theoretical anchor:** under a **uniform prior, the posterior mean is order-equivalent to average accuracy (Pass@1 / avg@N)**. This is the key result — it says the Bayesian estimator ranks models the same way as the empirically robust avg@N, so adopting it costs you nothing in ordering while adding calibrated uncertainty.
+- **Decision rule:** treat a performance gap as real only when **credible intervals do not overlap**; overlapping intervals = not distinguishable given the sample budget. This makes "is this gap signal or noise?" an explicit, reportable test rather than a vibe.
+- **Empirical claim:** on AIME'24/'25, HMMT'25, BrUMO'25 and ground-truth simulations, the posterior procedure shows **faster convergence and greater rank stability** than Pass@k and recent variants, enabling reliable comparison at much smaller sample counts.
+- **Prior evidence is usable:** the Dirichlet prior lets you fold in informative priors when appropriate (e.g. known base rates), rather than forcing a fresh frequentist estimate every time.
+- **Unifies binary and non-binary eval:** one protocol covers exact-match pass/fail and rubric-graded outputs, which matters for agent evals where success is often partial or multi-step.
+- **Practical framing:** the recommendation is a "compute-efficient protocol" — explicitly motivated by the cost of trials, the same constraint that dominates agent-run budgets.
+
+## Verified quotes
+- "Pass@k is widely used to report the reasoning performance of LLMs, but it often produces unstable and potentially misleading rankings, especially when the number of trials (samples) is limited and computational resources are constrained." — https://arxiv.org/abs/2510.04265
+- "We present a principled Bayesian evaluation framework that replaces Pass@k and average accuracy over N trials (avg@N) with posterior estimates of a model's underlying success probability and credible intervals, yielding stable rankings and a transparent decision rule for differences." — https://arxiv.org/abs/2510.04265
+- "Theoretically, under a uniform prior, the Bayesian posterior mean is order-equivalent to average accuracy (Pass@1), explaining its empirical robustness while adding principled uncertainty." — https://arxiv.org/abs/2510.04265
+- "The framework clarifies when observed gaps are statistically meaningful (non-overlapping credible intervals) versus noise, and it naturally extends to graded, rubric-based evaluations." — https://arxiv.org/abs/2510.04265
+- "Together, these results recommend replacing Pass@k for LLM evaluation and ranking with a posterior-based, compute-efficient protocol that unifies binary and non-binary evaluation while making uncertainty explicit." — https://arxiv.org/abs/2510.04265
+
+(Quotes verified from the arXiv abstract page. Full PDF body text could not be extracted cleanly due to compressed PDF streams, so all quotes above are taken from the verbatim abstract.)
+
+## What it adds / why it's good
+The obvious sources (the original Codex Pass@k definition and its later unbiased-estimator variants) give you a *less biased point estimate* of the same quantity — they reduce bias but do nothing about the core problem of an evaluator staring at a single noisy number with no error bars. This paper's non-BS contribution is twofold. First, it makes **uncertainty first-class and analytic**: you get a credible interval in closed form from the same samples, so "this leaderboard gap is within noise" becomes a one-line, reproducible check rather than an afterthought requiring bootstrap plumbing. Second, the **order-equivalence-to-avg@N theorem** is the quietly important result — it removes the usual objection that "Bayesian = different rankings = political fight to adopt." Since under a flat prior the ordering matches avg@1, teams can switch with no ranking disruption and pure upside on calibration. For agent evals specifically — where each rollout can cost dollars and minutes, so N is genuinely tiny — the small-N rank stability and the explicit non-overlap decision rule directly attack the failure mode of over-reading a 2-point gap from 8 samples. It also unifies binary and rubric/judge scoring under one Dirichlet model, which is the right shape for agent tasks that are graded, not pass/fail.
+
+## Themes
+- **1 why-evals** — central: argues the dominant metric is statistically unsound at realistic sample budgets.
+- **5 eval infra** — primary: a concrete, closed-form, compute-efficient estimation protocol with code (scorio) to drop into eval pipelines.
+- **6 benchmark-vs-eval/integrity** — strong: provides a rigorous test for when leaderboard/benchmark gaps are real vs. noise (non-overlapping credible intervals).
+- **8 judge/verifiers** — supporting: the Dirichlet/weighted-rubric extension covers graded, rubric-based and judge-style scoring, not just exact-match.
+- **9 agent-specific** — supporting: the small-N / expensive-trial regime it targets is exactly the reality of agent rollouts, even though the empirical benchmarks shown are math-reasoning sets.

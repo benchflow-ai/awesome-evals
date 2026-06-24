@@ -1,0 +1,37 @@
+# Notes — "Build an Agent Improvement Loop with Traces, Evals, and Codex"
+
+**Author:** Wesley Pasfield (OpenAI Cookbook, Agents SDK) · **URL:** https://developers.openai.com/cookbook/examples/agents_sdk/agent_improvement_loop · **Type:** eng-blog · **Found:** true
+
+## Summary (3-6 sentences)
+This OpenAI Cookbook notebook is a runnable, end-to-end demonstration of an agent "improvement flywheel": it runs a real agent, captures execution traces, layers human + model feedback onto those traces, converts the feedback into reusable Promptfoo evals, and then ranks the next set of changes and hands them to Codex to implement. The worked example is a financial diligence analyst agent operating over a mounted dataroom, run across five realistic diligence questions. The central framing is the "harness" — the full contract around the model (instructions, tools, routing, output requirements, validation checks) — rather than just the prompt or model. The loop is closed by HALO, an external optimization tool that diagnoses the trace corpus and writes a `codex_handoff.md` carrying the diagnosis, ranked recommendations, evidence, and implementation guidance forward. It is notable as a concrete, code-first instantiation of the trace→feedback→eval→fix practitioner loop, complete with validation gates that catch regressions before changes ship.
+
+## Key points (5-12 substantive bullets)
+- **Five-stage loop:** (1) trace generation — run the agent on realistic scenarios and export OpenTelemetry-style spans to JSONL; (2) feedback collection — add human reviewer comments and LLM critiques onto traces; (3) eval generation — auto-convert feedback into Promptfoo test cases; (4) validation gate — run Promptfoo evals against current behavior to catch regressions; (5) optimization & handoff — use HALO to rank harness changes and emit a `codex_handoff.md`.
+- **"Harness," not "prompt," is the unit of change:** the notebook defines the harness as the full contract around the model — instructions, tools, routing, output requirements, and validation checks — so improvements target the whole agent contract, not just wording.
+- **Custom trace exporter:** a `HaloJsonlTraceProcessor` intercepts Agents SDK span lifecycle events and writes one JSON line per span, preserving trace IDs, parent-child relationships, timing, token counts, tool invocations, workflow names, and error status — making runs correlatable across the corpus and consumable by HALO.
+- **Feedback becomes machine-readable expectations:** human + model observations about gaps/failures are structured into Promptfoo test cases (inputs, expected outputs, grading criteria) so future agent versions can be re-validated automatically without manual re-review.
+- **HALO closes the loop:** HALO (github.com/context-labs/halo) analyzes the full trace corpus + feedback + eval results, ranks which harness modifications have highest impact, and writes the developer-facing `codex_handoff.md` with diagnosis, evidence links, and implementation guidance for Codex.
+- **Concrete worked agent:** a financial diligence analyst whose system prompt emphasizes structured evidence over narrative, citation discipline, and explicit unknown-handling; tool policy restricts data to a mounted dataroom and prefers structured CSV/JSON exports over narrative files when they conflict.
+- **Output contract enforcement:** the agent must emit six required artifacts (summary answer, investment memo, risk register, open questions, citations, evidence table). Two validation tools enforce this — `check_evidence_coverage.py` audits drafted claims against actual dataroom files, and `validate_output_contract.py` checks all artifacts exist with valid JSON/CSV.
+- **Versioned config as dataclasses:** `ModelSettings` (model + reasoning effort, e.g. "medium") and `AgentConfig` (system prompt, model settings, tool policy, eval metadata) bundle the harness into a versioned contract; `run_sdk_agent()` stages the dataset, attaches tracing, runs the SDK runner, collects artifacts, and exports traces.
+- **Numbers:** 5 traced runs by default (financing risk, revenue quality, customer concentration, security readiness, unsupported metrics); ~20 min runtime with default models. Fictional dataroom details exercise the agent's discipline: 11 months runway at $2.9M monthly burn; 34% customer concentration (Northstar Holdings, $12.4M of $36.9M controlled ARR); $43.0M board ARR vs $36.9M controlled ARR, a $6.1M gap attributed to launch-stage commitments and usage true-ups.
+- **War-story design intent:** the dataroom deliberately contains conflicting metrics (board vs controlled ARR) and unsupported numbers so traces surface whether the agent hallucinates, cites, or flags unknowns — turning subjective "is this answer good" judgments into reproducible eval cases.
+
+## Verified quotes (1-4 verbatim lines)
+> "This notebook builds an improvement flywheel for an agent. We start with real traces, add human and model feedback, turn that feedback into Promptfoo evals, and use the resulting evidence to propose the next harness changes for Codex to implement." — https://developers.openai.com/cookbook/examples/agents_sdk/agent_improvement_loop
+
+> "The flywheel preserves what you learn from each run. Traces show what happened, feedback explains what mattered, evals make those expectations reusable, and Codex can act on the resulting change set." — same URL
+
+> "In this notebook, the harness is the full contract around the model, including instructions, tools, routing, output requirements, and validation checks." — same URL
+
+> "Prefer structured CSV/JSON exports over narrative files when they conflict." (agent system prompt) — same URL
+
+## What it adds / why it's good
+Most practitioner writing on eval loops stays at the diagram level: "collect traces, label them, write evals, fix the agent." This source is the rare one that ships the actual plumbing — a custom span exporter, dataclass-versioned harness config, a feedback-to-Promptfoo converter, a validation gate, and a structured Codex handoff artifact — so the loop is mechanically reproducible rather than aspirational. Two ideas are genuinely sharper than the obvious sources: (1) treating the **harness as the unit of optimization** (instructions + tools + routing + output contract + validators), which reframes "improve the prompt" into "improve the contract"; and (2) the **`codex_handoff.md` as a durable carrier of state between the analysis stage and the coding agent** — diagnosis, ranked recs, evidence, and implementation guidance travel together, which is exactly the gap that breaks most human-in-the-loop improvement cycles. The deliberately adversarial dataroom (conflicting ARR figures, unsupported metrics) is a nice touch: it builds evals that test epistemic discipline (cite/flag/abstain), not just task completion.
+
+## Themes
+- **1 why-evals** — argues evals make subjective feedback reusable and reproducible across agent versions.
+- **4 observability** — trace generation via a custom OpenTelemetry-style JSONL span exporter is the loop's foundation.
+- **5 eval infra** — Promptfoo suites, a validation gate, and the HALO/`codex_handoff.md` pipeline as concrete eval infrastructure.
+- **8 judge/verifiers** — model critiques plus deterministic verifiers (`check_evidence_coverage.py`, `validate_output_contract.py`) as graders.
+- **9 agent-specific** — full agent harness (tools, output contract, dataroom) and Agents SDK tracing, not single-prompt eval.

@@ -1,0 +1,26 @@
+# Notes — "REALM: Retrieval-Augmented Language Model Pre-Training"
+**Authors:** Kelvin Guu, Kenton Lee, Zora Tung, Panupong Pasupat, Ming-Wei Chang (Google Research) · **Venue/Year:** ICML 2020 (arXiv preprint Feb 2020) · **URL:** https://arxiv.org/abs/2002.08909 · **Type:** paper · **Found:** true
+
+## Summary
+REALM augments language model pre-training with a learned, latent *knowledge retriever* that pulls documents from a large corpus (Wikipedia) and attends over them during pre-training, fine-tuning, and inference. Its central methodological contribution is showing — for the first time — how to pre-train such a retriever in an unsupervised way using masked language modeling as the learning signal, backpropagating gradients *through* a retrieval step that ranges over millions of documents. To make this tractable, REALM treats the retrieved document as a latent variable, scores documents by dense inner-product (enabling Maximum Inner Product Search), and refreshes the document index asynchronously. Fine-tuned on Open-domain QA, it beat the prior state of the art (including the far larger T5-11B) by 4–16% absolute accuracy while adding interpretability and modularity. The paper is foundational because it established the retriever-reader-with-end-to-end-learning recipe that underpins modern RAG, and demonstrated that *retrieving* knowledge can outperform *memorizing* it in parameters.
+
+## Key points
+- **Architecture:** two jointly-trained modules — a *neural knowledge retriever* (dense dual-encoder, inner-product scoring) that ranks corpus documents, and a *knowledge-augmented encoder* (reader) that conditions on input + retrieved document to predict the answer. The retrieved doc is a latent variable marginalized over the top-k.
+- **Unsupervised retriever pre-training:** masked language modeling is the only signal — a retrieval that lowers the LM's perplexity is rewarded; an uninformative one is penalized. No retrieval supervision (gold passages) needed.
+- **Backprop through retrieval over millions of docs:** the LM objective's gradient flows all the way into the retriever, which is the core computational challenge the paper solves.
+- **Async MIPS index refresh:** because retriever weights drift, the precomputed document embedding index goes stale; a background job re-embeds and re-indexes all documents every several hundred training steps so training never stalls on index rebuilds.
+- **Salient span masking:** instead of masking random tokens, REALM masks named entities and dates (via tagging/regex), concentrating the learning signal on knowledge-intensive predictions — a key driver of the gains.
+- **Results (Open-QA, exact-match accuracy):** Natural Questions 40.4, WebQuestions 40.7, CuratedTrec 46.8 (best corpus settings).
+- **Beats much larger implicit-knowledge models:** vs T5-11B (34.5 NQ / 37.4 WQ) and ORQA (33.3 / 36.4 / 30.1) and a BERT baseline (26.5 / 17.7 / 21.3) — outperforming all prior methods by 4–16% absolute despite a far smaller reader.
+- **Modularity & interpretability:** the retrieved document is inspectable, so one can see *which* evidence drove an answer — a property absent in parametric-only LMs.
+
+## Verified quotes
+- "For the first time, we show how to pre-train such a knowledge retriever in an unsupervised manner, using masked language modeling as the learning signal and backpropagating through a retrieval step that considers millions of documents." — https://arxiv.org/abs/2002.08909
+- "we outperform all previous methods by a significant margin (4-16% absolute accuracy), while also providing qualitative benefits such as interpretability and modularity." — https://arxiv.org/abs/2002.08909
+- "this knowledge is stored implicitly in the parameters of a neural network, requiring ever-larger networks to cover more facts. To capture knowledge in a more modular and interpretable way, we augment language model pre-training with a latent knowledge retriever..." — https://arxiv.org/abs/2002.08909
+
+## Why it matters for agent evals
+REALM is a load-bearing ancestor of retrieval-augmented agents and of how we *evaluate* knowledge-grounded systems. Three relevances: (1) **Benchmark seeding** — it cements Open-domain QA (NQ, WebQuestions, CuratedTrec) as the testbed for separating retrieval quality from reasoning quality, a decomposition agent evals still rely on. (2) **Verifier/evidence structure** — by making the retrieved document an explicit, inspectable latent, REALM prefigures evidence-grounded evaluation and attribution/citation checking: an eval (or a verifier/judge) can score not just the final answer but *whether the right evidence was retrieved*, which is exactly the kind of process-level signal modern agent evals want. (3) **Capability⇄RL-env framing** — treating retrieval as a latent variable trained by a downstream reward (lower LM loss = good retrieval) is structurally the same as an RL environment that rewards an agent's tool/search action by the quality of the answer it enables; REALM is an early instance of optimizing a tool-use policy end-to-end against task success, which is the template for evaluating and training retrieval/tool-using agents today.
+
+## Themes
+2 eval⇄capability⇄RL-env · 6 benchmark-vs-eval/integrity · 8 judge/verifiers · 9 agent-specific

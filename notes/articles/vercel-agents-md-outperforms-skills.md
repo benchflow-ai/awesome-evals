@@ -1,0 +1,34 @@
+# Notes — "AGENTS.md outperforms skills in our agent evals"
+
+**Author:** Jude Gao (Vercel) · **URL:** https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals · **Type:** eng-blog · **Found:** true
+
+## Summary (3-6 sentences)
+Vercel ran a controlled eval pitting two ways of giving a coding agent knowledge of brand-new Next.js 16 APIs (e.g. `'use cache'`, `connection()`, `forbidden()`, `cacheLife()`/`cacheTag()`) that postdate the model's training cutoff: a passively-injected `AGENTS.md` docs index versus an explicitly-invoked Skill. The headline result is that `AGENTS.md` hit a 100% pass rate across build/lint/test while a Skill topped out at 79% even when prompted with explicit instructions to use it, and only 53% (baseline-equivalent) when left to default behavior. The root cause of the Skill's underperformance was a *retrieval* failure, not a *content* failure: in 56% of eval cases the Skill was never invoked at all. The core thesis is that passive, always-present context wins because it removes the agent's decision point — there is no moment where the agent has to choose to look something up. The post also shows that the injected docs compress aggressively (~40KB down to ~8KB, an index pointing to retrievable files) without losing the 100% score, and concedes Skills still win for explicitly-triggered, action-shaped workflows like version upgrades or migrations.
+
+## Key points (5-12 substantive bullets)
+- **The eval is deliberately out-of-distribution.** They test Next.js 16 APIs that "weren't in model training data" — `'use cache'`, `cacheLife()`/`cacheTag()`, `connection()`, `forbidden()`/`unauthorized()`, async `cookies()`/`headers()`, `proxy.ts`, `after()`, `updateTag()`, `refresh()`. This is the right way to measure whether injected knowledge actually helps vs. the model just knowing the answer.
+- **Headline numbers (overall pass rate):** Baseline (no docs) 53% → Skill default 53% (+0pp) → Skill with explicit instructions 79% (+26pp) → AGENTS.md docs index 100% (+47pp).
+- **Per-axis breakdown shows AGENTS.md is uniformly clean:** AGENTS.md scored 100% on Build / 100% Lint / 100% Test. The best Skill config (explicit instructions) was 95% / 100% / 84%. Baseline was 84% / 95% / 63%. Test is the hardest axis and where the gap is widest.
+- **The failure mode is retrieval, not content.** "In 56% of eval cases, the skill was never invoked." When the Skill *did* fire, the content was fine — the agent simply often didn't decide to call it. Same knowledge, different delivery, 21-point gap.
+- **Instruction wording is fragile.** Two phrasings of "use the skill" gave very different results: "invoke first" missed required config changes, while "explore project first, then invoke skill" did better. This is a sharp, reproducible example of prompt brittleness in tool-gated knowledge.
+- **Concrete war story — the `'use cache'` case:** the "invoke first" ordering wrote a correct `page.tsx` but completely missed the required `next.config.ts` changes; the explore-then-invoke ordering got both files right. A partial answer that builds but is wrong is exactly what a build-only metric would miss — hence the value of the test axis.
+- **The mechanism (their core claim):** "No decision point. With AGENTS.md, there's no moment where the agent must decide 'should I look this up?' The information is already present." Passive context beats active retrieval because retrieval has a failure probability per decision.
+- **Compression result:** initial docs injection ~40KB compressed to ~8KB (≈80% reduction) while holding 100% — and the compressed form is an *index pointing to retrievable files*, not full docs. So the win isn't "stuff everything in context"; it's "always-present pointer + on-demand fetch."
+- **They don't claim Skills are useless.** "Skills work better for vertical, action-specific workflows that users explicitly trigger, like 'upgrade my Next.js version,' 'migrate to the App Router.'" The dividing line is passive reference knowledge (AGENTS.md) vs. user-triggered procedural workflows (Skills).
+- **Actionable framework-author guidance:** don't wait for tool-use to improve ("results matter now"), compress aggressively to an index, and build evals that target APIs *outside* training data. Ships a codemod: `npx @next/codemod@canary agents-md`.
+- **Methodology caveat for the knowledge base:** the post does not disclose exact task count or which Claude/agent versions were used, and the suite was "hardened" across iterations. Treat the numbers as a directional, internally-consistent A/B rather than a published benchmark.
+
+## Verified quotes (verbatim, from the URL)
+- "In 56% of eval cases, the skill was never invoked." — https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals
+- "No decision point. With AGENTS.md, there's no moment where the agent must decide 'should I look this up?' The information is already present." — same URL
+- "Skills work better for vertical, action-specific workflows that users explicitly trigger, like 'upgrade my Next.js version,' 'migrate to the App Router.'" — same URL
+- "a markdown file in your project root that provides persistent context to coding agents" (definition of AGENTS.md) — same URL
+
+## What it adds / why it's good
+Most "context engineering" content is opinion; this is a real A/B with a sound experimental design and a counterintuitive, well-isolated finding. The key practitioner insight is that **the bottleneck for tool/skill-based knowledge is the invocation decision, not the knowledge itself** — quantified as a 56% non-invocation rate that turns into a 21-point eval gap even after explicit prompting. That reframes a lot of agent-design debate: adding a retrieval step adds a per-decision failure probability, and passive context removes it entirely. The OOD eval choice (post-cutoff Next.js 16 APIs) is methodologically important — it guarantees the docs, not memorized training data, are doing the work, which is exactly the trap most "does our doc help?" evals fall into. The compression result (40KB→8KB index, still 100%) is a useful, non-obvious second finding: passive ≠ bloated, an always-present index plus lazy fetch is sufficient. The honest "Skills still win for triggered procedural workflows" caveat keeps it from being a hit piece and gives a clean decision rule. Caveat for citation: no disclosed N or model versions, so it's a strong internal experiment, not a reproducible public benchmark.
+
+## Themes
+- **3 model/harness/skill** (primary — directly compares AGENTS.md passive context vs. Skill harness invocation)
+- **1 why-evals** (uses an eval to settle a design question; argues "results matter now")
+- **9 agent-specific** (coding-agent behavior, invocation decisions, context delivery)
+- **2 eval⇄capability⇄RL-env** (OOD post-cutoff APIs as the capability probe; eval design tied to what the model can't already do)
