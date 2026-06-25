@@ -1,0 +1,62 @@
+name: Eval Scan (audit + update)
+
+# Autonomous curator: Claude Code scans for new high-quality agent-eval content,
+# vets it, and opens a PR with the additions. Runs on your Claude subscription via
+# a CLAUDE_CODE_OAUTH_TOKEN secret (generate with `claude setup-token`).
+
+on:
+  schedule:
+    - cron: "23 8 * * *"   # daily 08:23 UTC (off the :00 mark)
+  workflow_dispatch:
+    inputs:
+      focus:
+        description: "Optional focus for this run (e.g. podcasts, benchmarks, talks, a specific author)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: eval-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run the eval scan
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: "--max-turns 60"
+          prompt: |
+            You are the autonomous curator for this repository, **Awesome Agent Evals**.
+            Run a SCAN to audit and update the library with NEW, genuinely-high-quality content.
+            Optional focus for this run: "${{ github.event.inputs.focus }}" (empty = general scan).
+
+            Follow the workflow documented in SCAN.md. In short:
+            1. Read README.md (and CONTRIBUTING.md for the bar) and collect every URL already listed — that is your dedup set.
+            2. Discover candidates with WebSearch/WebFetch, parallelizing with Task subagents across these seams:
+               - latest posts from known authors (Eugene Yan, Han-Chung Lee, Hamel Husain, Shreya Shankar,
+                 Nathan Lambert, Florian Brand, Jason Liu, Cameron Wolfe, Aman Khan, Gergely Orosz, Chip Huyen, Lilian Weng);
+               - company engineering blogs (Anthropic, OpenAI, Cursor, Cognition, Braintrust, Arize, Langfuse,
+                 LangChain, Vercel, Sierra, Prime Intellect, BenchFlow);
+               - eval podcasts (Latent Space, Vanishing Gradients, AI That Works, MLOps Community, How I AI, Gradient Dissent);
+               - new benchmarks / evals / tools;
+               - "eval mentions inside general agent-building talks & posts" — keep only if the eval segment is genuinely good.
+            3. VET every candidate with a STRICT, non-BS bar: real data/code/method/insight. Reject SEO, marketing,
+               listicles, thin recaps, and anything already in README. When in doubt, leave it out.
+            4. For each kept item, add ONE clickable, annotated entry — `- **[Title](url)** — Author — note. 🆕` — to the
+               correct README section. Match the house format. Decode any HTML entities.
+            5. If NOTHING clears the bar, stop and make no changes.
+            6. If you added items: create a branch `scan/<YYYY-MM-DD>`, commit with a plain message (NO AI/Claude
+               attribution), push, and open a PR via `gh pr create` titled "Eval scan: <N> new items (<date>)" whose body
+               lists each addition with a one-line reason it clears the bar. Do not push to `main` directly.
+
+            Be rigorous and conservative — this repo's value is curation, not volume.
