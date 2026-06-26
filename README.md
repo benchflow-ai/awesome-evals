@@ -217,7 +217,6 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Portkey](https://github.com/portkey-ai/gateway)** — <https://github.com/portkey-ai/gateway> — 🆕 OSS gateway + 60+ guardrails + observability (fully open-sourced Mar 2026).
 - **[Datadog LLM Observability](https://www.datadoghq.com/product/ai/llm-observability/)** — <https://www.datadoghq.com/product/ai/llm-observability/> — 🆕 evaluators + golden datasets + **LLM Experiments** + AI Agent Monitoring (Jun 2025).
 - **[Fiddler AI](https://www.fiddler.ai/)** — <https://www.fiddler.ai/> — 🆕 Trust Models (Safety/PII/Faithfulness) scoring in <100ms; Guardrails + agentic observability.
-- **[SeaOtter](https://seaotter.ai?utm_source=github&utm_medium=awesome_list&utm_campaign=launch&utm_content=A-09-benchflow-awesome-evals)** — <https://seaotter.ai/submit?utm_source=github&utm_medium=awesome_list&utm_campaign=launch&utm_content=A-09-benchflow-awesome-evals> · *tool* — Adversarial critic for AI agent outputs. Submit an output plus an acceptance policy; get pass/rework/fail with specific reasons before accepting the work.
 - **[PromptLayer](https://www.promptlayer.com/)** — <https://www.promptlayer.com/> · **New Relic AI Monitoring** — <https://newrelic.com/platform/ai-monitoring> — lighter prompt-CMS / APM-native monitoring.
 
 ### 5g · Tracing standards
