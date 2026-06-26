@@ -15,6 +15,22 @@ Today's date: run `date -u +%F` ONCE; call the value DATE and use it everywhere 
 - A 0-kept day is only a TRUSTWORTHY ZERO if the quorum holds (see PHASE 1 step 7). Otherwise it is INCONCLUSIVE and you must NOT advance failed/degraded cursors.
 
 ================================================================
+/deep-research SKILL — premium verification + discovery (USE IT, judiciously)
+================================================================
+This job runs on a Claude subscription where the **/deep-research** skill IS available. Use it as your
+deep-verification engine, cost-guarded (it is powerful and expensive):
+- VET phase: after the ruthless first cut, if there is ≥1 survivor, invoke **/deep-research ONCE on the
+  survivor batch** — adversarially fact-check each survivor's headline claim across multiple independent
+  sources and surface any contradicting or duplicate prior work. A claim /deep-research cannot corroborate
+  is UNVERIFIED → drop it. This SUPPLEMENTS (never replaces) the skeptic+editor live-page check.
+- WEEKLY cold-rebaseline only: also run /deep-research up front to map what is genuinely new in agent
+  evaluation over the lookback window, seeding discovery beyond the fixed seed list.
+- COST GUARD: at most ONE /deep-research call per run; SKIP it entirely on a 0-survivor day; never per-item.
+  If the skill is unavailable in this environment, fall back to the skeptic+editor subagents — do NOT fail the run.
+- The no-fabrication rule still binds: every stat needs a verbatim single-sentence source quote, even if
+  /deep-research surfaced it.
+
+================================================================
 PHASE 0 — ORIENT (cheap; no web)  [scout mode + single-job]
 ================================================================
 0.1 Find LIST: check `README.md`, then `research/LIBRARY.md`; use whichever holds the awesome-list body (the "🔎 Scan additions" section). Read `CONTRIBUTING.md` and, if present, `SCAN.md`, to learn the bar and EXACT entry format. (If SCAN.md is absent and LIST links to it, you MAY create it in this PR — optional, never block.)
