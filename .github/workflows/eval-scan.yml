@@ -68,16 +68,27 @@ jobs:
             3. VET RUTHLESSLY — real data/method/benchmark/war-story only. Most days 0-3 items, often ZERO;
                "no new items" is the normal successful outcome (open NO PR). Reject SEO/marketing/derivative/
                thin-recap and anything already in the dedup set. A single weak entry lowers trust in the list.
+               PER-ITEM REVIEW: for EACH surviving candidate, spawn its OWN Task subagent that (a) judges it against
+               the bar (keep/cut) and (b) assigns its target section (see step 5). Never batch-judge; one subagent
+               per addition idea, so each gets a real review.
 
             4. VERIFY survivors. If the **/deep-research** skill is available, run ONE /deep-research pass over the
                survivor batch to adversarially fact-check each headline claim + surface dups/contradictions;
                otherwise spawn skeptic subagents that re-fetch the live page. NEVER state a number you cannot quote
                verbatim from one source sentence; drop anything you cannot verify.
 
-            5. ROUTE each kept item to the correct file: eval-FOCUSED (primarily about evaluation / benchmarks /
-               judging / RL-environments) → `README.md`; resources that only MENTION evals (an agent-building post
-               or talk with a genuinely good eval segment) → `MENTIONS.md`. Mirror that file's existing entry shape
-               (`- **[Title](url)** — Author — note. 🆕`). NEVER put an eval-mention in README.
+            5. ROUTE each kept item into its CORRECT SECTION — integrate into the main list, NEVER a catch-all
+               "Scan additions" subsection:
+               - an eval-FOCUSED article/paper/tool → its best THEMED section in `README.md` BY TOPIC, inserted
+                 among that section's existing entries: §1 why-evals · §2 eval⇄capability⇄RL-env · §3 model/harness/skill ·
+                 §4 observability · §5 eval-infra · §6 benchmark-vs-eval & INTEGRITY (contamination, reward-hacking,
+                 eval-awareness, leaderboard gaming) · §7 RL-environments · §8 LLM-as-judge & verifiers ·
+                 §9 agent-specific eval & agent BENCHMARKS · §10 safety/adversarial.
+               - a talk / podcast / lecture → the `🎙 Talks, podcasts & slides` section in `README.md`.
+               - a resource that only MENTIONS evals (agent-building post/talk with a good eval segment, not eval-first)
+                 → `MENTIONS.md`.
+               Mirror the existing entry shape (`- **[Title](url)** — Author — note. 🆕`). NEVER create or use a
+               generic "Scan additions" bucket, and NEVER put an eval-mention in `README.md`.
 
             6. If ≥1 item clears the bar: create branch `scan/<YYYY-MM-DD>`, commit (plain message, NO AI/Claude
                attribution or "Generated with" line), push, and open ONE PR (base=`main`) titled
