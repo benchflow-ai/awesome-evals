@@ -1,24 +1,24 @@
 name: Eval Scan (audit + update)
 
-# Autonomous daily curator (ultracode-optimized recipe v2). Claude Code scouts NEW high-signal
-# agent-eval content via per-source delta cursors, vets it ruthlessly, verifies every survivor
-# against the live page, and opens ONE review PR — or none. Runs on a Claude subscription OAuth
-# token. Full recipe: .github/scan-recipe.md. State: .scanner/. See SCAN.md.
+# Autonomous daily curator. Claude Code finds NEW high-signal agent-eval content, vets it
+# ruthlessly, verifies it, and opens ONE review PR — or none. Runs on a Claude subscription
+# OAuth token. The bot can NEVER push to main or self-merge; a human approves every PR.
+#
+# This is the SIMPLE, PRODUCTIVE recipe (exhaustive single-job, capable subagents) — the one
+# that actually surfaces real finds. The sophisticated delta-state/tiered recipe
+# (.github/scan-recipe.md + .scanner/) is kept as documented future work (its real form is a
+# two-job Haiku-scout -> Sonnet-vet pipeline); the single-job version of it was reliably safe
+# but not productive in a 25-min CI budget.
 
 on:
   schedule:
-    - cron: "0 13 * * *"   # daily 13:00 UTC — delta scan
-    - cron: "0 13 * * 0"   # weekly (Sun) recall backstop — cold rebaseline (no date floor)
+    - cron: "0 13 * * *"   # daily 13:00 UTC
   workflow_dispatch:
     inputs:
       focus:
         description: "Scope this run to one source group / topic (optional)"
         required: false
         default: ""
-      cold_rebaseline:
-        description: "1 = 90-day cold re-scan (recovery / first run)"
-        required: false
-        default: "0"
 
 permissions:
   contents: write
@@ -27,12 +27,12 @@ permissions:
 
 concurrency:
   group: awesome-evals-scan
-  cancel-in-progress: false   # queue, never race the state files
+  cancel-in-progress: false
 
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 30        # 12 daily sources fit comfortably; weekly sweep gets more
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,18 +40,49 @@ jobs:
 
       - name: Run the eval scan
         uses: anthropics/claude-code-action@v1
-        env:
-          CLAUDE_CODE_SUBAGENT_MODEL: claude-haiku-4-5   # scout/skeptic fan-out runs cheap on Haiku
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           settings: ".github/claude-scan-settings.json"
-          claude_args: "--model claude-sonnet-4-6 --max-turns 90"
+          claude_args: "--model claude-sonnet-4-6 --max-turns 200"
           prompt: |
-            Follow the recipe in .github/scan-recipe.md EXACTLY.
-            SCAN_PHASE is unset → run the SINGLE-JOB fallback: you are the Sonnet orchestrator and own
-            inclusion + claim adjudication + the editor veto; spawn Haiku Task subagents for the Phase-1
-            scout fan-out and the Phase-2 skeptic/editor fetches (CLAUDE_CODE_SUBAGENT_MODEL is haiku).
-            COLD_REBASELINE for this run = "${{ (github.event.inputs.cold_rebaseline == '1' || github.event.schedule == '0 13 * * 0') && '1' || '0' }}".
-            Optional focus for this run: "${{ github.event.inputs.focus }}" (empty = full delta scan).
-            Honor every ABSOLUTE INVARIANT. Open a PR only if ≥1 item clears the bar; otherwise make no
-            changes and report the trustworthy-zero (or inconclusive) status.
+            You are the autonomous daily curator for **benchflow-ai/awesome-evals**. Find NEW, genuinely
+            high-signal agent-evaluation content, vet it RUTHLESSLY, verify it, and open ONE review PR — or
+            none. You can NEVER push to `main` and NEVER merge; a human approves every PR.
+            Optional focus for this run: "${{ github.event.inputs.focus }}" (empty = full scan).
+
+            1. Read `README.md`, `MENTIONS.md`, and `CONTRIBUTING.md`. Collect every URL AND entry title across
+               BOTH lists as your dedup set. Dedup by URL **and** by close title — never re-add a paper/talk/post
+               already listed under a different URL (arxiv vs html, or a podcast *about* a listed paper).
+
+            2. DISCOVER thoroughly — spawn one Task subagent per seam IN PARALLEL and actually fetch each;
+               concluding "nothing new" without fetching the company-blog indexes is a FAILED run:
+               - known authors' latest (Eugene Yan, Han-Chung Lee, Hamel Husain, Shreya Shankar, Nathan Lambert,
+                 Florian Brand, Jason Liu, Cameron Wolfe, Chip Huyen, Lilian Weng, Simon Willison);
+               - company eng blogs — for JS-SPA ones (Cursor, Anthropic engineering, OpenAI, Cognition, Replit,
+                 Sourcegraph, Braintrust, Vercel, Prime Intellect, BenchFlow) run **WebSearch recency queries**
+                 (e.g. `site:cursor.com eval OR benchmark` past 2 weeks) AND fetch the index;
+               - eval podcasts (Latent Space, Vanishing Gradients, AI That Works, MLOps Community, How I AI);
+               - new benchmarks/tools (recent arXiv agent-eval, HF papers, GitHub releases via `gh api`);
+               - eval mentions inside general agent-building posts/talks.
+
+            3. VET RUTHLESSLY — real data/method/benchmark/war-story only. Most days 0-3 items, often ZERO;
+               "no new items" is the normal successful outcome (open NO PR). Reject SEO/marketing/derivative/
+               thin-recap and anything already in the dedup set. A single weak entry lowers trust in the list.
+
+            4. VERIFY survivors. If the **/deep-research** skill is available, run ONE /deep-research pass over the
+               survivor batch to adversarially fact-check each headline claim + surface dups/contradictions;
+               otherwise spawn skeptic subagents that re-fetch the live page. NEVER state a number you cannot quote
+               verbatim from one source sentence; drop anything you cannot verify.
+
+            5. ROUTE each kept item to the correct file: eval-FOCUSED (primarily about evaluation / benchmarks /
+               judging / RL-environments) → `README.md`; resources that only MENTION evals (an agent-building post
+               or talk with a genuinely good eval segment) → `MENTIONS.md`. Mirror that file's existing entry shape
+               (`- **[Title](url)** — Author — note. 🆕`). NEVER put an eval-mention in README.
+
+            6. If ≥1 item clears the bar: create branch `scan/<YYYY-MM-DD>`, commit (plain message, NO AI/Claude
+               attribution or "Generated with" line), push, and open ONE PR (base=`main`) titled
+               "Scan <date>: N new eval find(s)" whose body lists each addition, WHICH FILE it went to, the verbatim
+               claim quote proving any stat, and why it clears the bar. NEVER push to `main`. If nothing clears the
+               bar, make no changes and report "no new items".
+
+            Be exhaustive in discovery, ruthless in inclusion — the list's value is curation, not volume.
