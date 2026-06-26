@@ -70,5 +70,13 @@ jobs:
             - Check each known author's blog index and each podcast's recent-episodes page directly, not
               just generic search.
 
-            Be rigorous AND exhaustive in discovery, but conservative in inclusion — this repo's value is
-            curation, not volume. Quality bar over everything; thoroughness in the search, not the list.
+            INCLUSION IS RUTHLESS — search wide, add almost nothing. Genuinely high-signal eval content is
+            RARE: most days there are 0-3 worthy new items, and many days ZERO. Do NOT pad to a number, and
+            do NOT add something just because the search surfaced it. Add an item ONLY if it is clearly
+            high-signal — original data, a real method/benchmark, or a hard-won war-story from a serious
+            source that a careful curator would genuinely feature. When unsure, EXCLUDE.
+            "No new items today" is the normal, successful outcome — open NO pr in that case. A PR with 1-3
+            items is typical; a 10+ item PR should only ever happen on a genuine backlog (the very first deep
+            scan), never on a routine daily run. Reject medium-signal, derivative, listicle, vendor-marketing,
+            and "fine but not notable" posts outright — a single weak entry lowers trust in the whole list.
+            Discovery is exhaustive so you never MISS a rare gem; inclusion is ruthless so the list stays signal-dense.
