@@ -37,7 +37,8 @@ PHASE 0 — ORIENT (cheap; no web)  [scout mode + single-job]
 0.2 Learn the house format BY EXAMPLE from existing "Scan additions" entries; copy their shape EXACTLY. Current shape:
     `- **Title** — Author(s) (affiliation) — Source/Publisher — \`https://canonical-url\` · *type* (quality) — 1-3 sentence, mechanism-level why-it-clears-the-bar. 🆕`
     `type` mirrors existing labels (*blog*, *article*, *paper*, *talk*, *podcast*, *tool/repo*); when unsure, mirror the nearest existing entry — do NOT invent vocabulary. `quality` ∈ {excellent, good} ONLY.
-0.3 Build the DEDUP SET from the ENTIRE LIST (all sections). THIS, not the state file, is the truth for "already have it."
+0.3 Build the DEDUP SET from the ENTIRE LIST — BOTH `README.md` AND `MENTIONS.md` (every section of each). THIS, not the state file, is the truth for "already have it."
+0.3b TWO-FILE ROUTING (mandatory): the list is split. **README.md** = eval-FOCUSED resources (the piece is primarily about evaluation / benchmarks / judging / RL-environments). **MENTIONS.md** = resources that only MENTION evals — an agent-building post or talk that carries a genuinely good eval SEGMENT but is not eval-first. Apply this test to every kept item and append it to the CORRECT file (mirror that file's existing entry shape). NEVER put an eval-mention in README. A "mention" still must clear the ruthless bar (the eval segment itself must be high-signal), it just lives in MENTIONS.md. In your PR, note which file each addition went to.
     - URL-norm: lowercase host, drop scheme, strip leading `www.`, trailing slash, query, `#fragment`, `utm_*`. Collapse `arxiv.org/abs/<id>`=`/pdf/<id>` to key `arxiv:<id>`. Collapse `youtube.com/watch?v=<id>`=`youtu.be/<id>` to `yt:<id>`.
     - TITLE-norm: lowercase, strip punctuation/emoji.
     - Record author/org names so you can catch "same talk/paper, different host."
