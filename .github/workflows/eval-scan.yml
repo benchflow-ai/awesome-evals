@@ -32,7 +32,7 @@ concurrency:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 25        # prompt self-checkpoints at ~18 min
+    timeout-minutes: 30        # 12 daily sources fit comfortably; weekly sweep gets more
     steps:
       - uses: actions/checkout@v4
         with:
