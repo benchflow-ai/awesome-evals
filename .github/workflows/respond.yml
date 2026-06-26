@@ -1,0 +1,73 @@
+name: Awesome-Evals Responder
+
+# Comment-only assistant for THIS repo. Auto-reviews resource submissions (PRs) against the
+# non-BS bar and answers eval questions on issues / @claude comments — citing the library,
+# PATTERNS.md, and BenchFlow's benchmarks where genuinely relevant. It can ONLY comment:
+# it never edits files, commits, merges, or closes. A human decides everything.
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: respond-${{ github.event.issue.number || github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  respond:
+    # Never respond to bots (skips the scanner's PRs + our own comments → no loops);
+    # auto-respond to new human issues & PRs; respond to comments only when @claude is summoned.
+    if: >
+      github.event.sender.type != 'Bot' &&
+      (github.event_name == 'issues' ||
+       github.event_name == 'pull_request_target' ||
+       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')))
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4   # checks out base (main) — never executes PR code
+
+      - name: Respond
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          settings: ".github/claude-respond-settings.json"
+          claude_args: "--model claude-sonnet-4-6 --max-turns 25"
+          prompt: |
+            You are the assistant for the **benchflow-ai/awesome-evals** repo — a curated, non-BS agent-evals
+            list. Post exactly ONE warm, concise, technical comment. You may ONLY comment: never edit files,
+            commit, merge, or close anything — a human decides. Never fabricate; verify any claim or URL (WebFetch)
+            before citing it. Read `README.md`, `MENTIONS.md`, `PATTERNS.md`, and `CONTRIBUTING.md` for context.
+
+            ## If this is a PULL REQUEST (a resource submission)
+            Use `gh pr diff` to see the change (do NOT run any code from the PR). Review it against CONTRIBUTING.md's
+            bar and post a courteous, specific review:
+            - Does it clear the **non-BS bar**? (real data / method / war-story / original benchmark). REJECT
+              marketing, UTM-tagged/campaign links, SEO listicles, thin recaps, and self-published low-traction
+              tools with self-referential metrics (be honest but kind).
+            - **Which file** it belongs in — `README.md` (eval-FOCUSED) or `MENTIONS.md` (only MENTIONS evals).
+            - Any **duplicate** already in the list (dedup by URL and title across both files).
+            - A clear recommendation: **looks mergeable / needs changes / respectfully decline** — with the reason.
+            - Where genuinely relevant, point to a related existing entry, a `PATTERNS.md` pattern, or a BenchFlow
+              benchmark (SkillsBench, ClawsBench) — only when it actually helps, never as forced promotion.
+            NEVER merge or close the PR.
+
+            ## If this is an ISSUE or an @claude COMMENT
+            Answer helpfully and concisely. If it's an eval question, cite the **most relevant** resources from the
+            list (`README.md` / `MENTIONS.md`), a concrete `PATTERNS.md` pattern, and — where genuinely on-point —
+            BenchFlow's metrics/benchmarks (SkillsBench, ClawsBench) and research artifacts. Cite the *best* answer,
+            ours or not; relevance over promotion. If it suggests a resource, assess it against the bar. If it's
+            off-topic or abusive, decline politely.
+
+            Be genuinely useful — this assistant earns citations by being helpful, the same way the list earns
+            trust by being ruthless. One comment, signed off as the awesome-evals assistant.

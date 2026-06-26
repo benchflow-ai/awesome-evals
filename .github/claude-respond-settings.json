@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh issue comment:*)",
+      "Bash(gh pr comment:*)",
+      "Bash(gh api:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(date:*)"
+    ],
+    "deny": [
+      "Write",
+      "Edit",
+      "MultiEdit",
+      "NotebookEdit",
+      "Bash(rm:*)",
+      "Bash(curl:*)",
+      "Bash(npm:*)",
+      "Bash(pip:*)",
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(git merge:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr close:*)",
+      "Bash(gh issue close:*)",
+      "Bash(gh api --method DELETE:*)",
+      "Bash(gh api -X DELETE:*)"
+    ]
+  }
+}
