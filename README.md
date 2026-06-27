@@ -536,6 +536,8 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **Verified-high (deep-research, 3/3 votes):** Verifier's Law, the `verifiers` library, EvalGen, Inspect AI, promptfoo, the ABC benchmark-rigor paper, plus lm-eval-harness, Autoevals, agentevals, AI Agents That Matter.
 - **Flagged caveats:** the MT-Bench 10/25 bias numbers are *hedged by their own authors*; Lee's "Agent Runtime" post URL and the WebArena/OSWorld/Terminal-Bench/Cybench links still need verification; the Kanav Garg talk is cited via a conference summary (no canonical primary URL yet).
 
+- **[EvalPilot](https://evalpilot.ai/?utm_source=github&utm_medium=referral&utm_campaign=awesome-evals&utm_content=list-entry)** — The all-in-one AI evaluation platform to ship agents with confidence. Automated scoring, LLM-as-a-judge, and a beautiful dashboard your team will love. 🚀
+
 ## Deep notes
 
 This repo ships **146 deep reading notes** in [`notes/`](notes/) — structured summaries with key points, **verbatim quotes**, and themes, for the highest-signal sources:
