@@ -536,6 +536,8 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **Verified-high (deep-research, 3/3 votes):** Verifier's Law, the `verifiers` library, EvalGen, Inspect AI, promptfoo, the ABC benchmark-rigor paper, plus lm-eval-harness, Autoevals, agentevals, AI Agents That Matter.
 - **Flagged caveats:** the MT-Bench 10/25 bias numbers are *hedged by their own authors*; Lee's "Agent Runtime" post URL and the WebArena/OSWorld/Terminal-Bench/Cybench links still need verification; the Kanav Garg talk is cited via a conference summary (no canonical primary URL yet).
 
+- [Tau-Bench](https://sierra.ai/blog/2024-06-benchmarking-ai-agents) — Dynamic user↔agent conversations over domain APIs with policy guidelines; scored on end-state correctness and pass^k reliability.
+
 ## Deep notes
 
 This repo ships **146 deep reading notes** in [`notes/`](notes/) — structured summaries with key points, **verbatim quotes**, and themes, for the highest-signal sources:
