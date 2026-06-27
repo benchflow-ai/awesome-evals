@@ -536,6 +536,8 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **Verified-high (deep-research, 3/3 votes):** Verifier's Law, the `verifiers` library, EvalGen, Inspect AI, promptfoo, the ABC benchmark-rigor paper, plus lm-eval-harness, Autoevals, agentevals, AI Agents That Matter.
 - **Flagged caveats:** the MT-Bench 10/25 bias numbers are *hedged by their own authors*; Lee's "Agent Runtime" post URL and the WebArena/OSWorld/Terminal-Bench/Cybench links still need verification; the Kanav Garg talk is cited via a conference summary (no canonical primary URL yet).
 
+- **[TheAgentCompany](https://arxiv.org/abs/2412.14161)** — Xu et al. (CMU) — 175 consequential real-world professional tasks in a self-hosted company sandbox (GitLab, Plane, RocketChat, wiki) with simulated coworkers and checkpoint-based partial scoring; best agents fully complete ~24%. 🆕
+
 ## Deep notes
 
 This repo ships **146 deep reading notes** in [`notes/`](notes/) — structured summaries with key points, **verbatim quotes**, and themes, for the highest-signal sources:
