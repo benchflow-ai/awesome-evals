@@ -33,10 +33,31 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      # Slack notifications stay OFF (steps no-op) unless BOTH secrets are set:
+      #   SLACK_BOT_TOKEN  — a Slack bot token (xoxb-…) with chat:write, invited to the channel
+      #   SLACK_CHANNEL_ID — the target channel's ID (e.g. C07RE9B3LAW)
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      # Opens the Slack thread for this run and captures its timestamp so the result posts
+      # as a threaded reply. Uses the Slack Web API directly (plain step, not the model).
+      - name: Notify Slack — scan started
+        id: slack_start
+        if: env.SLACK_BOT_TOKEN != '' && env.SLACK_CHANNEL_ID != ''
+        run: |
+          txt=$(printf ':mag: *Daily eval scan started* — %s\nScanning known authors, company eng blogs, eval podcasts, arXiv & HF for new high-signal agent-eval content. Finds (and rejections) get threaded here. <%s|View run>' "$(date -u +%F)" "$RUN_URL")
+          resp=$(curl -sS -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H 'Content-type: application/json; charset=utf-8' \
+            -d "$(jq -n --arg ch "$SLACK_CHANNEL_ID" --arg txt "$txt" '{channel:$ch, text:$txt}')")
+          echo "ts=$(echo "$resp" | jq -r '.ts // empty')" >> "$GITHUB_OUTPUT"
+          [ "$(echo "$resp" | jq -r .ok)" = "true" ] || echo "::warning::Slack start post failed: $(echo "$resp" | jq -r '.error // "unknown"')"
 
       - name: Run the eval scan
         uses: anthropics/claude-code-action@v1
@@ -97,3 +118,32 @@ jobs:
                bar, make no changes and report "no new items".
 
             Be exhaustive in discovery, ruthless in inclusion — the list's value is curation, not volume.
+
+      # Threads the outcome under the start message: the finds preview + a link to review/merge
+      # the PR, or "no new items", or a failure note. Runs even if the scan step failed.
+      - name: Notify Slack — scan result
+        if: always() && env.SLACK_BOT_TOKEN != '' && env.SLACK_CHANNEL_ID != '' && steps.slack_start.outputs.ts != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          THREAD_TS: ${{ steps.slack_start.outputs.ts }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          # Latest open scan/* PR (robust to same-day branch naming).
+          pr=$(gh pr list -R "$GITHUB_REPOSITORY" --base main --state open \
+            --json number,title,url,body,headRefName \
+            --jq '[.[] | select(.headRefName | startswith("scan/"))] | sort_by(.number) | last // empty' 2>/dev/null || true)
+          if [ -n "$pr" ]; then
+            num=$(echo "$pr" | jq -r .number); url=$(echo "$pr" | jq -r .url); title=$(echo "$pr" | jq -r .title)
+            finds=$(echo "$pr" | jq -r '.body' | grep -E '^### ' | sed -E 's/^### /• /' | head -20)
+            [ -z "$finds" ] && finds='(see the PR for the itemized finds)'
+            txt=$(printf ':sparkles: *%s*\n%s\n\n<%s|Review & merge PR #%s> — _human approval required before anything lands_' "$title" "$finds" "$url" "$num")
+          elif [ "$JOB_STATUS" = "success" ]; then
+            txt=':white_check_mark: Scan finished — *no new items today* (nothing cleared the bar).'
+          else
+            txt=$(printf ':x: Scan run *%s* — no PR opened. <%s|Check the logs>' "$JOB_STATUS" "$RUN_URL")
+          fi
+          curl -sS -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H 'Content-type: application/json; charset=utf-8' \
+            -d "$(jq -n --arg ch "$SLACK_CHANNEL_ID" --arg ts "$THREAD_TS" --arg txt "$txt" '{channel:$ch, thread_ts:$ts, text:$txt}')" \
+            | jq -e '.ok == true' >/dev/null || echo "::warning::Slack summary post failed"
