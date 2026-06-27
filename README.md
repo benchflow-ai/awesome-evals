@@ -321,7 +321,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 ## 9 · Agent-specific evaluation (trajectories, tool use, multi-turn, world state, multi-agent, localization)
 
 - **[Demystifying Evals for AI Agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)** — Anthropic — <https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents> · *blog* — Grade the final env state (flight-booking via SQL); outcome vs trajectory; isolation; pass@k vs pass^k.
-- **[τ-bench / τ²-bench](https://arxiv.org/abs/2406.12045)** — Sierra — <https://arxiv.org/abs/2406.12045> · <https://github.com/sierra-research/tau-bench> · *paper/repo* — DB-state-diff grading; user simulation; pass^k; empty-result as explicit fail.
+- [τ-bench](https://github.com/sierra-research/tau-bench) — Tool-Agent-User benchmark; 2 domains (retail, airline); measures pass^k reliability over repeated trials. GPT-4o 81% pass^1 (retail) — best-in-class agent reliability.
 - **[Benchmarking AI Agents](https://sierra.ai/blog/benchmarking-ai-agents)** — Sierra — <https://sierra.ai/blog/benchmarking-ai-agents> · *blog* — The motivation behind τ-bench.
 - **[GAIA: A Benchmark for General AI Assistants](https://arxiv.org/abs/2311.12983)** — Mialon et al. — <https://arxiv.org/abs/2311.12983> · *paper* — Real assistant tasks; difficulty by human task-length.
 - **[Patterns for Building Cybersecurity Evals](https://eugeneyan.com/writing/cybersecurity-evals/)** — Eugene Yan — <https://eugeneyan.com/writing/cybersecurity-evals/> · *blog* — The four-primitive agentic-eval template (sandbox, difficulty inputs, tools, deterministic grader); outcome grading + partial-credit ladders + transcript audits. (also T10)
