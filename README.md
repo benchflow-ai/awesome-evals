@@ -165,6 +165,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[UpTrain](https://github.com/uptrain-ai/uptrain)** — <https://github.com/uptrain-ai/uptrain> — 20+ preconfigured checks + root-cause analysis on failures.
 - **[HF `evaluate`](https://github.com/huggingface/evaluate)** — <https://github.com/huggingface/evaluate> — classic metrics library, ⚠️ maintenance mode (use lighteval for LLMs).
 - **[Harbor](https://github.com/harbor-framework/harbor)** — harbor-framework (Laude Institute / Stanford) — <https://github.com/harbor-framework/harbor> — 🆕 framework for running agent evals + creating/using RL environments; powers Terminal-Bench 2.0. ~2.7k★. ⚠️ name overloaded (cf. `av/harbor` local-LLM toolkit).
+- **[Caliper](https://github.com/edonadei/caliper)** — Emrick Donadei — <https://github.com/edonadei/caliper> · <https://pypi.org/project/caliper-eval/> — 🆕 **pass@k reliability harness for agent skills**: runs a skill k times against Claude Code / Codex / pi, grading each attempt with an LLM-autorater (`expect:`) and/or deterministic Python (`assert:`), then a `--baseline` re-run without the skill reports the delta to prove the skill beats the base agent. Git-diffable `.eval.yaml` specs; isolated per-attempt sandboxes.
 
 ### 5b · TypeScript/JS-native eval runners
 - **[evalite](https://github.com/mattpocock/evalite)** — Matt Pocock — <https://github.com/mattpocock/evalite> — 🆕 local-first eval runner on Vitest; `.eval.ts` files, web UI, cost-aware.
