@@ -2,7 +2,7 @@
 
 > A curated, opinionated, **non-BS** library of the best resources for **building and evaluating AI agents** — papers, blog posts, talks, courses, tools, and benchmarks.
 
-Maintained by [**BenchFlow**](https://benchflow.ai) ·
+Maintained by [**BenchFlow**](https://benchflow.ai) · Join our [**Discord**](https://discord.gg/mZ9Rc8q8W3)
 
 Most "awesome" lists are link dumps. This one is **annotated and verified**: every entry says *what it is and why it belongs*, URLs are checked, quotes are verbatim, and dead/abandoned tools are pruned (not silently listed). It was assembled by:
 
