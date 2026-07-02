@@ -1,0 +1,116 @@
+/* Global styles ported from the Design Composer source (Evals Frontier.dc.html). */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #f3efe5;
+  color: #1c1a16;
+  font-family: 'Newsreader', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: #e2c9a0;
+}
+
+/* Custom scrollbars on the scrolling panes. */
+.ef-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.ef-scroll::-webkit-scrollbar-thumb {
+  background: rgba(28, 26, 22, 0.18);
+  border-radius: 6px;
+  border: 3px solid #f3efe5;
+}
+.ef-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@keyframes efIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes efFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+input::placeholder {
+  color: #9b9486;
+}
+
+/* Reset the anchor + button defaults so inline styles fully control appearance. */
+a {
+  color: inherit;
+}
+button {
+  font: inherit;
+}
+
+/* Headings balance their line breaks; body copy avoids orphans. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+/* Tactile press feedback for primary controls. */
+.ef-press {
+  transition: scale 0.12s cubic-bezier(0.2, 0, 0, 1);
+}
+.ef-press:active {
+  scale: 0.96;
+}
+
+/* Live-updating numerals stay fixed-width to avoid layout shift. */
+.ef-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Small action chip (LLM deep-links, copy) — hover + press states inline styles can't do. */
+.ef-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Spline Sans Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #5c564a;
+  background: transparent;
+  border: 1px solid rgba(28, 26, 22, 0.2);
+  border-radius: 3px;
+  padding: 7px 11px;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s,
+    scale 0.12s cubic-bezier(0.2, 0, 0, 1);
+}
+.ef-chip:hover {
+  border-color: #8c3b2f;
+  color: #8c3b2f;
+  background: rgba(140, 59, 47, 0.05);
+}
+.ef-chip:active {
+  scale: 0.96;
+}
