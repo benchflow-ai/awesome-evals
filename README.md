@@ -559,6 +559,13 @@ This repo ships **146 deep reading notes** in [`notes/`](notes/) — structured 
 
 PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories beat hot takes), give every entry a one-line *why*, verify the URL, and flag caveats. See [CONTRIBUTING.md](CONTRIBUTING.md). Quality over quantity — a great list is as much about what it *excludes*.
 
+
+
+## Helium Trades Open Benchmarks (2026)
+
+- [Helium Market Resolution Benchmark](https://huggingface.co/datasets/HeliumTrades/helium-market-resolution-benchmark) - 300 frozen option-chain prompts; tests IV, delta, arbitrage. [Overview](https://heliumtrades.com/benchmarks/)
+- [Helium Model Worldview Benchmark](https://huggingface.co/datasets/HeliumTrades/helium-model-worldview-benchmark) - 304 paired prompts for safety, values, bias, politics. [Overview](https://heliumtrades.com/benchmarks/)
+
 ## License
 
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
