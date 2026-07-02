@@ -155,6 +155,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[simple-evals](https://github.com/openai/simple-evals)** — OpenAI — <https://github.com/openai/simple-evals> — minimal zero-shot/CoT scripts (MMLU, HumanEval, SimpleQA, HealthBench); the numbers OpenAI publishes. ⚠️ not actively maintained.
 - **[OpenAI Evals](https://github.com/openai/evals)** — <https://github.com/openai/evals> — the `completion_fn` abstraction = swap the system-under-test. (Best-practices: <https://developers.openai.com/api/docs/guides/evaluation-best-practices>)
 - **[promptfoo](https://github.com/promptfoo/promptfoo)** — <https://github.com/promptfoo/promptfoo> — MIT eval + red-teaming CLI; git-diffable YAML configs. **(MUST)**
+- **[agent-qa](https://github.com/vostride/agent-qa)** — Vostride — <https://github.com/vostride/agent-qa> · *tool/repo* — 🆕 Natural-language QA harness for web and mobile apps: memory-backed self-healing runs, dashboard/CLI, MCP/skills support, and sandboxed hooks for regression checks.
 - **[DeepEval / Confident AI](https://github.com/confident-ai/deepeval)** — <https://github.com/confident-ai/deepeval> — "pytest for LLMs," 40+ metrics (G-Eval, RAG, hallucination) + red-team; ~2M evals/day; hosted cloud. 🆕
 - **[pydantic-evals](https://github.com/pydantic/pydantic-ai)** — <https://github.com/pydantic/pydantic-ai> (`ai.pydantic.dev/evals`) — 🆕 type-safe Datasets/Cases/Evaluators with OTel tracing, from the Pydantic AI team.
 - **[openevals](https://github.com/langchain-ai/openevals)** — LangChain — <https://github.com/langchain-ai/openevals> — 🆕 prebuilt evaluators + `create_llm_as_judge` (incl. multimodal); general-purpose companion to **agentevals** (<https://github.com/langchain-ai/agentevals>, trajectory match).
@@ -564,7 +565,6 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
 
