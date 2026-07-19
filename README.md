@@ -165,6 +165,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[UpTrain](https://github.com/uptrain-ai/uptrain)** — <https://github.com/uptrain-ai/uptrain> — 20+ preconfigured checks + root-cause analysis on failures.
 - **[HF `evaluate`](https://github.com/huggingface/evaluate)** — <https://github.com/huggingface/evaluate> — classic metrics library, ⚠️ maintenance mode (use lighteval for LLMs).
 - **[Harbor](https://github.com/harbor-framework/harbor)** — harbor-framework (Laude Institute / Stanford) — <https://github.com/harbor-framework/harbor> — 🆕 framework for running agent evals + creating/using RL environments; powers Terminal-Bench 2.0. ~2.7k★. ⚠️ name overloaded (cf. `av/harbor` local-LLM toolkit).
+- **[verdict4](https://github.com/MetaCortex-Dynamics/verdict4)** — MetaCortex Dynamics — <https://github.com/MetaCortex-Dynamics/verdict4> — 🆕 minimal four-value `CheckResult` primitive (NO/YES/MAYBE/IFF) + loop runner: a scorer *shape* rather than a harness, for agent loops where a boolean pass/fail discards conditionally-correct or not-yet-evaluable work. Zero deps, MIT. ⚠️ new/small — a building block, not a batteries-included framework.
 
 ### 5b · TypeScript/JS-native eval runners
 - **[evalite](https://github.com/mattpocock/evalite)** — Matt Pocock — <https://github.com/mattpocock/evalite> — 🆕 local-first eval runner on Vitest; `.eval.ts` files, web UI, cost-aware.
