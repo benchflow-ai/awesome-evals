@@ -348,6 +348,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[BrowseComp: A Simple Yet Challenging Benchmark for Browsing Agents](https://openai.com/index/browsecomp/)** — OpenAI (Wei et al.) — <https://openai.com/index/browsecomp/> · *benchmark* — 1,266 'inverted' hard-to-find/easy-to-verify questions for deep-research browsing agents; short verifiable answers make grading deterministic. Released 2025, now standard for browsing-agent eval. (paper: arxiv.org/abs/2504.12516) 🆕
 - **[LocAgent: Graph-Guided LLM Agents for Code Localization](https://arxiv.org/abs/2503.09089)** — Chen, Tang et al. (Yale / All Hands) — <https://arxiv.org/abs/2503.09089> · *paper* — Defines and evaluates code localization as its own capability (Acc@k over file/function locations via code graphs) — directly fills the 'localization' theme named in the section title but currently unlisted. 🆕
 - **[WebVoyager: Building an End-to-End Web Agent with Large Multimodal Models](https://arxiv.org/abs/2401.13919)** — He et al. (Tencent AI Lab) — <https://arxiv.org/abs/2401.13919> · *benchmark* — 643 tasks on 15 live real-world sites with a GPT-4V automatic-judge eval protocol — an early, widely-cited example of multimodal-LLM-as-judge for live-web agent trajectories.
+- **[ClawBench: Can AI Agents Complete Everyday Online Tasks?](https://arxiv.org/abs/2604.08523)** — TIGER-AI Lab — <https://arxiv.org/abs/2604.08523> · <https://github.com/TIGER-AI-Lab/ClawBench> · *benchmark/repo* — 🆕 153 consequential live-site tasks across 144 websites and 15 life domains in isolated containers; evaluates multiple agent harnesses and records replay, action, network, and message traces for outcome and trajectory analysis.
 - **[SkillsBench](https://github.com/benchflow-ai/skillsbench)** — BenchFlow — <https://github.com/benchflow-ai/skillsbench> · *benchmark* — 🆕 evaluates how well agent **skills** work and how effectively agents use them — makes skill-acquisition/skill-use a measurable axis (the "Agent Skills" frontier). ~1.4k★.
 - **[ClawsBench](https://github.com/benchflow-ai/ClawsBench)** — BenchFlow — <https://github.com/benchflow-ai/ClawsBench> · *benchmark* — 🆕 BenchFlow's agent benchmark (results/data repo; full release in progress).
 
@@ -564,7 +565,6 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
 
