@@ -364,6 +364,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Konwinski Prize (K Prize)](https://www.kaggle.com/competitions/konwinski-prize)** — Andy Konwinski / Kaggle — <https://www.kaggle.com/competitions/konwinski-prize> · *leaderboard* — $1M Kaggle forecasting-format contest on GitHub bugs filed after submission close, fully contamination-free, test-graded; round-1 top score only 7.5% exposed real-world difficulty 🆕
 - **[Mind2Web 2: Evaluating Agentic Search with Agent-as-a-Judge](https://arxiv.org/abs/2506.21506)** — Gou et al., OSU NLP Group (NeurIPS 2025 D&B) — <https://arxiv.org/abs/2506.21506> · *benchmark* — 130 long-horizon live-web agentic-search tasks; novel Agent-as-a-Judge rubric-tree grader for time-varying, citation-backed answers — a serious answer to the Deep Research evaluation gap. 🆕
 - **[Online-Mind2Web (An Illusion of Progress? Assessing the Current State of Web Agents)](https://arxiv.org/abs/2504.01382)** — Xue et al., OSU NLP Group — <https://arxiv.org/abs/2504.01382> · *benchmark* — 300 realistic tasks on 136 live websites with an LLM-as-a-Judge auto-grader (~85% human agreement); exposes overstated web-agent progress vs simple baselines. 🆕
+- **[ClawBench: Can AI Agents Complete Everyday Online Tasks?](https://arxiv.org/abs/2604.08523)** — reacher-z et al. — <https://github.com/reacher-z/ClawBench> · <https://claw-bench.com/> · *benchmark* — 153 everyday tasks across 144 live websites with isolated browser runs, interception-based safety checks, and replay/action/HTTP/agent-message traces; complements static replicas with live-site evaluation. 🆕
 - **[REAL: Benchmarking Autonomous Agents on Deterministic Simulations of Real Websites](https://github.com/agi-inc/REAL)** — AGI Inc (agi-inc/REAL), powers realevals.xyz — <https://github.com/agi-inc/REAL> · *benchmark* — 112 tasks on deterministic Next.js replicas of Amazon/Uber/LinkedIn etc.; reproducible LLM evaluator plus state validators — fixes the flakiness of live-site web benchmarks. 🆕
 - **[WebGames: Challenging General-Purpose Web-Browsing AI Agents](https://arxiv.org/abs/2502.18356)** — Thomas et al., Convergence AI — <https://arxiv.org/abs/2502.18356> · *benchmark* — 50+ client-side challenges isolating specific browser interaction skills with verifiable pass/fail; best agent 41% vs 96% human, a sharp diagnostic gap. 🆕
 - **[Berkeley Function Calling Leaderboard (BFCL) V4](https://gorilla.cs.berkeley.edu/leaderboard.html)** — Patil et al., UC Berkeley (Gorilla / ICML 2025) — <https://gorilla.cs.berkeley.edu/leaderboard.html> · *leaderboard* — Executable + AST-based grading of tool/function calling; V4 adds multi-turn agentic, web-search and memory tasks — the de facto tool-calling leaderboard. 🆕
@@ -564,7 +565,6 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
 
