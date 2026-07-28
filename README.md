@@ -202,6 +202,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Open Reward Standard (ORS)](https://docs.openreward.ai/)** — General Reasoning — <https://docs.openreward.ai/> (PyPI `openreward`) — 🆕 MCP-extending spec adding RL primitives (episodes, rewards, curriculum). ⚠️ no single canonical repo confirmed.
 
 ### 5f · Observability + eval platforms (tracing · datasets · online/offline · CI)
+- **[Confident AI](https://www.confident-ai.com/)** — <https://www.confident-ai.com/> (`github.com/confident-ai/deepeval`) — 🆕 Comprehensive AI platform for online & offline evaluations, end-to-end tracing, red teaming, and governance. (Developed by the team behind DeepEval)
 - **[Arize Phoenix](https://github.com/Arize-ai/phoenix)** — <https://github.com/Arize-ai/phoenix> — OSS OTel tracing + response/retrieval evals + datasets/experiments. **(MUST)**
 - **[Langfuse](https://github.com/langfuse/langfuse)** — <https://github.com/langfuse/langfuse> — OSS: evals (LLM-judge, feedback, manual labeling), datasets/experiments, prompt mgmt; self-hostable. 🆕
 - **[Opik](https://github.com/comet-ml/opik)** — Comet — <https://github.com/comet-ml/opik> — 🆕 fully-OSS eval + observability (judges, datasets, CI-runnable evals).
