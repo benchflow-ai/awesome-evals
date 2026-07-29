@@ -179,6 +179,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[continuous-eval (Relari)](https://github.com/relari-ai/continuous-eval)** — <https://github.com/relari-ai/continuous-eval> — modular per-module metrics across retrieval/generation/tool-use.
 - **[Tonic Validate](https://github.com/TonicAI/tonic_validate)** — <https://github.com/TonicAI/tonic_validate> — RAG metrics as a GitHub Action for CI.
 
+- **[Verbatim Citation Gate](https://github.com/Palo-Alto-AI-Research-Lab/verbatim-citation-gate)** — <https://github.com/Palo-Alto-AI-Research-Lab/verbatim-citation-gate> — zero-token verbatim span check in front of a burden-of-proof judge, so fabricated quotes are rejected before any LLM call; framework-agnostic.
 ### 5d · LLM-as-judge / reward / verifier libraries
 - **[verdict](https://github.com/haizelabs/verdict)** — Haize Labs — <https://github.com/haizelabs/verdict> — 🆕 declarative compound judges (debate/verification/aggregation, inference-time scaling); arXiv:2502.18018.
 - **[RULER](https://github.com/OpenPipe/ART)** — OpenPipe (ART) — <https://github.com/OpenPipe/ART> (`art.openpipe.ai/fundamentals/ruler`) — 🆕 LLM-judge that ranks trajectories with no labels — judge-as-RL-reward. **(industry must-read)**
