@@ -99,10 +99,11 @@ jobs:
                thin-recap and anything already in the dedup set.
                BOTH ERRORS ARE REAL. A single weak entry lowers trust in the list. But a MISS is just as bad and
                far less visible: this list exists so a practitioner sees the major eval results here first, so
-               failing to surface a significant new benchmark audit, a named author's new eval post, or a
-               retraction/sequel to something ALREADY in the list is a failed run, not a safe one. Zero is a
-               legitimate outcome only when you fetched the seams and nothing cleared the bar — it is never the
-               default, and "when in doubt leave it out" does not license skipping the search.
+               failing to surface a significant new benchmark audit, a named author's new eval post THAT CLEARS
+               THE BAR, or a retraction/sequel to something ALREADY in the list is a failed run, not a safe one.
+               Calibration: a typical day is 0-3 additions. Zero is a legitimate outcome when you fetched the
+               seams and nothing cleared the bar — but it is never the default, and "when in doubt leave it out"
+               licenses rejecting a weak candidate, never skipping the search that would have found a strong one.
                PER-ITEM REVIEW: for EACH surviving candidate, spawn its OWN Task subagent that (a) judges it against
                the bar (keep/cut) and (b) assigns its target section (see step 5). Never batch-judge; one subagent
                per addition idea, so each gets a real review.
@@ -161,18 +162,26 @@ jobs:
           out="$RUNNER_TEMP/claude-tool-calls.json"
           # Every jq is guarded: this step runs under `bash -e`, and a truncated execution file
           # must degrade to a warning, never kill the step and swallow the Slack summary.
-          if ! jq '[ .[]
-                     | select(.type == "assistant")
-                     | { uuid,
-                         tool_calls: [ .message.content[]?
-                                       | select(.type == "tool_use")
-                                       | { name, input } ] }
-                     | select(.tool_calls | length > 0) ]' "$src" > "$out" 2>/dev/null; then
+          # Captures BOTH halves of the evidence: the tool calls (did it look?) and the agent's
+          # final search report required by prompt step 7 (what did it find and reject?). Without
+          # the report the step-7 requirement would be unobservable — `show_full_output` is off,
+          # so the final assistant text appears nowhere else.
+          if ! jq '{ tool_calls: [ .[]
+                       | select(.type == "assistant")
+                       | { uuid,
+                           tool_calls: [ .message.content[]?
+                                         | select(.type == "tool_use")
+                                         | { name, input } ] }
+                       | select(.tool_calls | length > 0) ],
+                     report: ([ .[]
+                                | select(.type == "result")
+                                | { subtype, is_error, num_turns, result: (.result // "") } ] | last) }' \
+                  "$src" > "$out" 2>/dev/null; then
             echo "::warning::Could not parse $src — SDK message shape may have changed."
             exit 0
           fi
-          calls=$(jq '[.[].tool_calls[]] | length' "$out" 2>/dev/null || echo 0)
-          fetched=$(jq -r '[ .[].tool_calls[]
+          calls=$(jq '[.tool_calls[].tool_calls[]] | length' "$out" 2>/dev/null || echo 0)
+          fetched=$(jq -r '[ .tool_calls[].tool_calls[]
                              | select(.name == "WebFetch" or .name == "WebSearch")
                              | (.input.url // .input.query // empty) ] | unique | length' "$out" 2>/dev/null || echo 0)
           echo "path=$out" >> "$GITHUB_OUTPUT"
@@ -204,20 +213,31 @@ jobs:
           # it as that day's finds. Fails closed: no timestamp => no PR matched, never "match all".
           # (`gh pr list --jq` takes no --arg, so the filter has to pipe into jq separately.)
           pr=''
+          lookup_ok=1
           if [ -n "${RUN_STARTED_AT:-}" ]; then
-            pr=$(gh pr list -R "$GITHUB_REPOSITORY" --base main --state open \
-                   --json number,title,url,body,headRefName,createdAt 2>/dev/null \
-                 | jq -c --arg since "$RUN_STARTED_AT" \
+            # Capture the query's exit status separately: `2>/dev/null || true` alone would turn an
+            # auth/API failure into an empty result, i.e. a green ":white_check_mark: no new items"
+            # on a day the scan may well have opened a PR.
+            if raw=$(gh pr list -R "$GITHUB_REPOSITORY" --base main --state open \
+                       --json number,title,url,body,headRefName,createdAt 2>/dev/null); then
+              pr=$(printf '%s' "$raw" | jq -c --arg since "$RUN_STARTED_AT" \
                      '[.[] | select(.headRefName | startswith("scan/"))
                            | select(.createdAt >= $since)] | sort_by(.number) | last // empty' 2>/dev/null || true)
+            else
+              lookup_ok=0
+            fi
           fi
           # Status is checked FIRST: a failed run must never be reported green just because a PR is open.
           if [ "$JOB_STATUS" != "success" ]; then
-            txt=$(printf ':x: Scan run *%s*. <%s|Check the logs>' "$JOB_STATUS" "$RUN_URL")
+            txt=$(printf ':x: Scan run *%s*. <%s|Check the logs>\n_%s_' "$JOB_STATUS" "$RUN_URL" "${TOOL_SUMMARY:-no tool-call audit available}")
             [ -n "$pr" ] && txt="$txt$(printf '\n:warning: A PR was opened before the failure: %s' "$(echo "$pr" | jq -r .url)")"
+          elif [ "$lookup_ok" -eq 0 ]; then
+            txt=$(printf ':warning: Scan finished, but the PR lookup failed — cannot tell whether a PR was opened. <%s|Check the run>\n_%s_' "$RUN_URL" "${TOOL_SUMMARY:-no tool-call audit available}")
           elif [ -n "$pr" ]; then
             num=$(echo "$pr" | jq -r .number); url=$(echo "$pr" | jq -r .url); title=$(echo "$pr" | jq -r .title)
-            finds=$(echo "$pr" | jq -r '.body' | grep -E '^### ' | sed -E 's/^### /• /' | head -20)
+            # Finds are entry lines (`- **[Title](url)** …`), not `### ` headings — those are section
+            # names in the PR body, so the old grep previewed the wrong thing (PR #33: 5 headings, 0 finds).
+            finds=$(echo "$pr" | jq -r '.body' | grep -E '^- \*\*\[' | sed -E 's/^- \*\*\[([^]]*)\].*/• \1/' | head -20 || true)
             [ -z "$finds" ] && finds='(see the PR for the itemized finds)'
             txt=$(printf ':sparkles: *%s*\n%s\n\n<%s|Review & merge PR #%s> — _human approval required before anything lands_' "$title" "$finds" "$url" "$num")
           else
