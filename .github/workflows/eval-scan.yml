@@ -57,9 +57,14 @@ jobs:
             -H 'Content-type: application/json; charset=utf-8' \
             -d "$(jq -n --arg ch "$SLACK_CHANNEL_ID" --arg txt "$txt" '{channel:$ch, text:$txt}')")
           echo "ts=$(echo "$resp" | jq -r '.ts // empty')" >> "$GITHUB_OUTPUT"
+          # Stamped from the runner clock (which cannot fail) so the result step can tell a PR THIS
+          # run opened from one left open on an earlier day. `date -u` is deliberate: an API lookup
+          # here would abort the step under `bash -e` and cost the Slack summary entirely.
+          echo "started_at=$(date -u +%FT%TZ)" >> "$GITHUB_OUTPUT"
           [ "$(echo "$resp" | jq -r .ok)" = "true" ] || echo "::warning::Slack start post failed: $(echo "$resp" | jq -r '.error // "unknown"')"
 
       - name: Run the eval scan
+        id: claude
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -90,9 +95,14 @@ jobs:
                - new benchmarks/tools (recent arXiv agent-eval, HF papers, GitHub releases via `gh api`);
                - eval mentions inside general agent-building posts/talks.
 
-            3. VET RUTHLESSLY — real data/method/benchmark/war-story only. Most days 0-3 items, often ZERO;
-               "no new items" is the normal successful outcome (open NO PR). Reject SEO/marketing/derivative/
-               thin-recap and anything already in the dedup set. A single weak entry lowers trust in the list.
+            3. VET RUTHLESSLY — real data/method/benchmark/war-story only. Reject SEO/marketing/derivative/
+               thin-recap and anything already in the dedup set.
+               BOTH ERRORS ARE REAL. A single weak entry lowers trust in the list. But a MISS is just as bad and
+               far less visible: this list exists so a practitioner sees the major eval results here first, so
+               failing to surface a significant new benchmark audit, a named author's new eval post, or a
+               retraction/sequel to something ALREADY in the list is a failed run, not a safe one. Zero is a
+               legitimate outcome only when you fetched the seams and nothing cleared the bar — it is never the
+               default, and "when in doubt leave it out" does not license skipping the search.
                PER-ITEM REVIEW: for EACH surviving candidate, spawn its OWN Task subagent that (a) judges it against
                the bar (keep/cut) and (b) assigns its target section (see step 5). Never batch-judge; one subagent
                per addition idea, so each gets a real review.
@@ -121,33 +131,106 @@ jobs:
                claim quote proving any stat, and why it clears the bar. NEVER push to `main`. If nothing clears the
                bar, make no changes and report "no new items".
 
+            7. ALWAYS end your final message with a SEARCH REPORT, whether or not you opened a PR:
+               - every index/feed/search you actually fetched, as a plain URL list, grouped by seam;
+               - every candidate you considered but rejected, one line each with the reject reason;
+               - the counts: N sources fetched, M candidates considered, K added.
+               A "no new items" answer with an empty or missing search report is a FAILED run — it is the one
+               thing that distinguishes a real zero-find day from having skipped the work.
+
             Be exhaustive in discovery, ruthless in inclusion — the list's value is curation, not volume.
+
+      # Reduces the execution log to a tool-call audit trail: tool NAME + INPUT only, with every
+      # tool_result dropped. Tool results are where `cat`/`Read` output — hence any env secret —
+      # would land, and artifact bytes are NOT secret-masked by the runner, so they must not ship.
+      # What survives is the one thing that answers "did the scan actually look?": which URLs it fetched.
+      # (`show_full_output` is deliberately left at its default "false": the execution file is already
+      # complete without it, so enabling it would add no audit value and only print tool results into
+      # this PUBLIC repo's Actions log.)
+      - name: Build tool-call audit trail
+        id: audit
+        if: always()
+        env:
+          EXEC_FILE: ${{ steps.claude.outputs.execution_file }}
+        run: |
+          src="${EXEC_FILE:-$RUNNER_TEMP/claude-execution-output.json}"
+          if [ ! -f "$src" ]; then
+            echo "::warning::No execution log at $src — nothing to audit."
+            exit 0
+          fi
+          out="$RUNNER_TEMP/claude-tool-calls.json"
+          # Every jq is guarded: this step runs under `bash -e`, and a truncated execution file
+          # must degrade to a warning, never kill the step and swallow the Slack summary.
+          if ! jq '[ .[]
+                     | select(.type == "assistant")
+                     | { uuid,
+                         tool_calls: [ .message.content[]?
+                                       | select(.type == "tool_use")
+                                       | { name, input } ] }
+                     | select(.tool_calls | length > 0) ]' "$src" > "$out" 2>/dev/null; then
+            echo "::warning::Could not parse $src — SDK message shape may have changed."
+            exit 0
+          fi
+          calls=$(jq '[.[].tool_calls[]] | length' "$out" 2>/dev/null || echo 0)
+          fetched=$(jq -r '[ .[].tool_calls[]
+                             | select(.name == "WebFetch" or .name == "WebSearch")
+                             | (.input.url // .input.query // empty) ] | unique | length' "$out" 2>/dev/null || echo 0)
+          echo "path=$out" >> "$GITHUB_OUTPUT"
+          echo "summary=${calls} tool calls · ${fetched} distinct fetches/searches" >> "$GITHUB_OUTPUT"
+          echo "Tool calls recorded: $calls (distinct fetches/searches: $fetched)"
+
+      - name: Upload tool-call audit trail
+        if: always() && steps.audit.outputs.path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-tool-calls-${{ github.run_id }}
+          path: ${{ steps.audit.outputs.path }}
+          if-no-files-found: warn
+          retention-days: 14
 
       # Threads the outcome under the start message: the finds preview + a link to review/merge
       # the PR, or "no new items", or a failure note. Runs even if the scan step failed.
       - name: Notify Slack — scan result
-        if: always() && env.SLACK_BOT_TOKEN != '' && env.SLACK_CHANNEL_ID != '' && steps.slack_start.outputs.ts != ''
+        if: always() && env.SLACK_BOT_TOKEN != '' && env.SLACK_CHANNEL_ID != ''
         env:
           GH_TOKEN: ${{ github.token }}
           THREAD_TS: ${{ steps.slack_start.outputs.ts }}
+          RUN_STARTED_AT: ${{ steps.slack_start.outputs.started_at }}
           JOB_STATUS: ${{ job.status }}
+          TOOL_SUMMARY: ${{ steps.audit.outputs.summary }}
         run: |
-          # Latest open scan/* PR (robust to same-day branch naming).
-          pr=$(gh pr list -R "$GITHUB_REPOSITORY" --base main --state open \
-            --json number,title,url,body,headRefName \
-            --jq '[.[] | select(.headRefName | startswith("scan/"))] | sort_by(.number) | last // empty' 2>/dev/null || true)
-          if [ -n "$pr" ]; then
+          # Only a scan/* PR opened DURING this run counts as this run's result. The old selector
+          # matched ANY open scan/* PR, so while #33 sat open the 06-30 and 07-01 runs re-announced
+          # it as that day's finds. Fails closed: no timestamp => no PR matched, never "match all".
+          # (`gh pr list --jq` takes no --arg, so the filter has to pipe into jq separately.)
+          pr=''
+          if [ -n "${RUN_STARTED_AT:-}" ]; then
+            pr=$(gh pr list -R "$GITHUB_REPOSITORY" --base main --state open \
+                   --json number,title,url,body,headRefName,createdAt 2>/dev/null \
+                 | jq -c --arg since "$RUN_STARTED_AT" \
+                     '[.[] | select(.headRefName | startswith("scan/"))
+                           | select(.createdAt >= $since)] | sort_by(.number) | last // empty' 2>/dev/null || true)
+          fi
+          # Status is checked FIRST: a failed run must never be reported green just because a PR is open.
+          if [ "$JOB_STATUS" != "success" ]; then
+            txt=$(printf ':x: Scan run *%s*. <%s|Check the logs>' "$JOB_STATUS" "$RUN_URL")
+            [ -n "$pr" ] && txt="$txt$(printf '\n:warning: A PR was opened before the failure: %s' "$(echo "$pr" | jq -r .url)")"
+          elif [ -n "$pr" ]; then
             num=$(echo "$pr" | jq -r .number); url=$(echo "$pr" | jq -r .url); title=$(echo "$pr" | jq -r .title)
             finds=$(echo "$pr" | jq -r '.body' | grep -E '^### ' | sed -E 's/^### /• /' | head -20)
             [ -z "$finds" ] && finds='(see the PR for the itemized finds)'
             txt=$(printf ':sparkles: *%s*\n%s\n\n<%s|Review & merge PR #%s> — _human approval required before anything lands_' "$title" "$finds" "$url" "$num")
-          elif [ "$JOB_STATUS" = "success" ]; then
-            txt=':white_check_mark: Scan finished — *no new items today* (nothing cleared the bar).'
           else
-            txt=$(printf ':x: Scan run *%s* — no PR opened. <%s|Check the logs>' "$JOB_STATUS" "$RUN_URL")
+            # The work-done counts ride along so a green tick is checkable at a glance: "0 distinct
+            # fetches" and "no new items" together mean the scan skipped the search, not that the week was quiet.
+            txt=$(printf ':white_check_mark: Scan finished — *no new items today* (nothing cleared the bar).\n_%s_ · <%s|run log + tool-call artifact>' "${TOOL_SUMMARY:-no tool-call audit available}" "$RUN_URL")
           fi
+          # thread_ts is omitted when the start post failed, so the summary still lands in-channel
+          # rather than being suppressed entirely (the old `outputs.ts != ''` gate dropped it).
+          payload=$(jq -n --arg ch "$SLACK_CHANNEL_ID" --arg txt "$txt" --arg ts "${THREAD_TS:-}" \
+            '{channel:$ch, text:$txt} + (if $ts == "" then {} else {thread_ts:$ts} end)')
           curl -sS -X POST https://slack.com/api/chat.postMessage \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
             -H 'Content-type: application/json; charset=utf-8' \
-            -d "$(jq -n --arg ch "$SLACK_CHANNEL_ID" --arg ts "$THREAD_TS" --arg txt "$txt" '{channel:$ch, thread_ts:$ts, text:$txt}')" \
+            -d "$payload" \
             | jq -e '.ok == true' >/dev/null || echo "::warning::Slack summary post failed"
