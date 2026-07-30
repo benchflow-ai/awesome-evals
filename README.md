@@ -219,6 +219,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Datadog LLM Observability](https://www.datadoghq.com/product/ai/llm-observability/)** — <https://www.datadoghq.com/product/ai/llm-observability/> — 🆕 evaluators + golden datasets + **LLM Experiments** + AI Agent Monitoring (Jun 2025).
 - **[Fiddler AI](https://www.fiddler.ai/)** — <https://www.fiddler.ai/> — 🆕 Trust Models (Safety/PII/Faithfulness) scoring in <100ms; Guardrails + agentic observability.
 - **[PromptLayer](https://www.promptlayer.com/)** — <https://www.promptlayer.com/> · **New Relic AI Monitoring** — <https://newrelic.com/platform/ai-monitoring> — lighter prompt-CMS / APM-native monitoring.
+- **[whatbroke](https://github.com/arthi-arumugam-git/whatbroke)** — <https://github.com/arthi-arumugam-git/whatbroke> · *tool* — OSS CLI that diffs two agent trace files (JSONL) before/after a model or prompt change: dropped tool calls, drifted args, reordering, cost/latency/outcome deltas; multi-sample flap rates demote baseline flakiness so only real regressions surface. Offline, deterministic, no judge or API keys; CI-gateable exit codes. 🆕
 
 ### 5g · Tracing standards
 - **[OpenInference](https://github.com/Arize-ai/openinference)** — Arize — <https://github.com/Arize-ai/openinference> — semantic conventions for agent traces (tool/args/observation/latency/cost).
