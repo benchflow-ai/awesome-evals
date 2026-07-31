@@ -1,0 +1,27 @@
+{
+  "name": "@awesome-evals/web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "The Frontier of Evals — a reading portal for the awesome-evals library (eval.news frontend).",
+  "scripts": {
+    "dev": "vite",
+    "data": "node scripts/build-data.mjs",
+    "prebuild": "node scripts/build-data.mjs",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "check:readme": "node scripts/check-readme-sync.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.7"
+  }
+}
