@@ -127,6 +127,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Hidden Technical Debt: Agent Evaluation Infrastructure](https://leehanchung.github.io/blogs/2026/06/13/hidden-technical-debt-agent-evaluation-infra/)** — Han-Chung Lee — <https://leehanchung.github.io/blogs/2026/06/13/hidden-technical-debt-agent-evaluation-infra/> · *blog* — Control plane / data plane; the **five surfaces** (output, trace, memory, environment, mechanistic); the empty-tool-result hallucination.
 - **[The Three Pillars of AI Observability](https://www.braintrust.dev/blog/three-pillars-ai-observability)** — Braintrust — <https://www.braintrust.dev/blog/three-pillars-ai-observability> · *blog* — Dataset reconciliation (living datasets); traces / evals / annotation.
 - **[Agent Trajectory Evaluations](https://arize.com/docs/ax/evaluate/evaluators/trace-and-session-evals/trace-level-evaluations/agent-trajectory-evaluations)** — Arize (AX docs) — <https://arize.com/docs/ax/evaluate/evaluators/trace-and-session-evals/trace-level-evaluations/agent-trajectory-evaluations> · *docs* — Grading the path, not just the answer.
+- **[Precise Records, Unstable Meanings](https://doi.org/10.5281/zenodo.21652317)** — Rolando Bosch (Hermes Labs) — <https://github.com/hermes-labs-ai/precise-records-unstable-meanings> · *paper* — Examines when precise agent telemetry fails to justify downstream evaluation claims, with a public evidence dossier and verification tools. 🆕
 - **[AI Agent Metrics: How Elite Teams Evaluate](https://galileo.ai/blog/ai-agent-metrics)** — Galileo — <https://galileo.ai/blog/ai-agent-metrics> · *blog* — A concrete agent-metric taxonomy (action completion, tool selection, etc.).
 - **[OpenInference semantic conventions](https://github.com/Arize-ai/openinference/blob/main/spec/semantic_conventions.md)** — Arize — <https://github.com/Arize-ai/openinference/blob/main/spec/semantic_conventions.md> · *tool/repo* — An OTel-based agent trace schema (tool, args, observation, latency, cost).
 - **[LangSmith Evaluation / Trajectory evals](https://docs.langchain.com/langsmith/evaluation)** — LangChain — <https://docs.langchain.com/langsmith/evaluation> · <https://docs.langchain.com/langsmith/trajectory-evals> · *docs*.
@@ -570,7 +571,6 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
 
