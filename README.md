@@ -180,6 +180,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Tonic Validate](https://github.com/TonicAI/tonic_validate)** — <https://github.com/TonicAI/tonic_validate> — RAG metrics as a GitHub Action for CI.
 
 ### 5d · LLM-as-judge / reward / verifier libraries
+- **[RewardHarness](https://github.com/TIGER-AI-Lab/RewardHarness)** — TIGER-AI-Lab et al. — <https://arxiv.org/abs/2605.08703> · *framework* — 🆕 evolves task-specific scoring skills and tools from preference demonstrations, producing image-editing judgments and a GRPO-compatible scalar reward without reward-model training.
 - **[verdict](https://github.com/haizelabs/verdict)** — Haize Labs — <https://github.com/haizelabs/verdict> — 🆕 declarative compound judges (debate/verification/aggregation, inference-time scaling); arXiv:2502.18018.
 - **[RULER](https://github.com/OpenPipe/ART)** — OpenPipe (ART) — <https://github.com/OpenPipe/ART> (`art.openpipe.ai/fundamentals/ruler`) — 🆕 LLM-judge that ranks trajectories with no labels — judge-as-RL-reward. **(industry must-read)**
 - **[Prometheus 2](https://github.com/prometheus-eval/prometheus-eval)** — <https://github.com/prometheus-eval/prometheus-eval> — open-weight evaluator LMs for rubric-based assessment + pairwise.
@@ -570,7 +571,6 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
 
