@@ -165,6 +165,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[UpTrain](https://github.com/uptrain-ai/uptrain)** — <https://github.com/uptrain-ai/uptrain> — 20+ preconfigured checks + root-cause analysis on failures.
 - **[HF `evaluate`](https://github.com/huggingface/evaluate)** — <https://github.com/huggingface/evaluate> — classic metrics library, ⚠️ maintenance mode (use lighteval for LLMs).
 - **[Harbor](https://github.com/harbor-framework/harbor)** — harbor-framework (Laude Institute / Stanford) — <https://github.com/harbor-framework/harbor> — 🆕 framework for running agent evals + creating/using RL environments; powers Terminal-Bench 2.0. ~2.7k★. ⚠️ name overloaded (cf. `av/harbor` local-LLM toolkit).
+- **[RepoTrials](https://github.com/PozziTiv4ik/Repo-Trials)** — PozziTiv4ik — <https://github.com/PozziTiv4ik/Repo-Trials> · *tool/framework* — 🆕 Local-first CLI that mines a codebase’s Git history into sealed coding-agent tasks, validates BASE/RED/GOLD test transitions, and compares repeated agent trials with hidden behavioral grading; exports Harbor tasks.
 
 ### 5b · TypeScript/JS-native eval runners
 - **[evalite](https://github.com/mattpocock/evalite)** — Matt Pocock — <https://github.com/mattpocock/evalite> — 🆕 local-first eval runner on Vitest; `.eval.ts` files, web UI, cost-aware.
