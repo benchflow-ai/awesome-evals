@@ -165,6 +165,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[UpTrain](https://github.com/uptrain-ai/uptrain)** — <https://github.com/uptrain-ai/uptrain> — 20+ preconfigured checks + root-cause analysis on failures.
 - **[HF `evaluate`](https://github.com/huggingface/evaluate)** — <https://github.com/huggingface/evaluate> — classic metrics library, ⚠️ maintenance mode (use lighteval for LLMs).
 - **[Harbor](https://github.com/harbor-framework/harbor)** — harbor-framework (Laude Institute / Stanford) — <https://github.com/harbor-framework/harbor> — 🆕 framework for running agent evals + creating/using RL environments; powers Terminal-Bench 2.0. ~2.7k★. ⚠️ name overloaded (cf. `av/harbor` local-LLM toolkit).
+- **[Gauntlet](https://github.com/ChelseaKR/gauntlet)** — <https://github.com/ChelseaKR/gauntlet> · <https://chelseakr.github.io/gauntlet/> — 🆕 merge-blocking eval gates for a *deployed feature* rather than a model: YAML suites run against any HTTP endpoint or Python callable, fail the build on a miss, and emit both a diffable JSON pack and a reviewer document cross-referenced to California's published GenAI risk framework. Ships a composite GitHub Action. ⚠️ v0.1.0, single maintainer.
 
 ### 5b · TypeScript/JS-native eval runners
 - **[evalite](https://github.com/mattpocock/evalite)** — Matt Pocock — <https://github.com/mattpocock/evalite> — 🆕 local-first eval runner on Vitest; `.eval.ts` files, web UI, cost-aware.
