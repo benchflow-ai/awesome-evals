@@ -170,6 +170,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 ### 5b · TypeScript/JS-native eval runners
 - **[evalite](https://github.com/mattpocock/evalite)** — Matt Pocock — <https://github.com/mattpocock/evalite> — 🆕 local-first eval runner on Vitest; `.eval.ts` files, web UI, cost-aware.
 - **[Mastra scorers](https://github.com/mastra-ai/mastra)** — <https://github.com/mastra-ai/mastra> (`mastra.ai/docs/evals/overview`) — 🆕 model-graded/rule/statistical scorers, live evals, CI, in the Mastra agent framework.
+- **[Open Multi-Agent evaluation](https://github.com/open-multi-agent/open-multi-agent)** — Open Multi-Agent — <https://github.com/open-multi-agent/open-multi-agent/blob/main/docs/evaluation.md> · *tool/framework* — 🆕 TypeScript-native, versioned EvalSets with offline JSON/Markdown/JUnit reports, baseline regression gates for CI, and opt-in production sampling that scores settled runs asynchronously without changing their results.
 - **[Vercel agent-eval](https://github.com/vercel-labs/agent-eval)** — <https://github.com/vercel-labs/agent-eval> — 🆕 A/B-test coding agents (Claude Code, Codex, Cursor) on custom tasks; pass-rate dashboards.
 - **[Autoevals](https://github.com/braintrustdata/autoevals)** — Braintrust — <https://github.com/braintrustdata/autoevals> — OSS scorer library (Factuality, relevance, security…) across Py/JS/Go/Ruby.
 
