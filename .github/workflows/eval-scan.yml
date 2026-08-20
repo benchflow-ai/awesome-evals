@@ -73,7 +73,7 @@ jobs:
           # only needs to push a branch + open a PR, which GITHUB_TOKEN + permissions above cover.
           github_token: ${{ secrets.GITHUB_TOKEN }}
           settings: ".github/claude-scan-settings.json"
-          claude_args: "--model claude-sonnet-4-6 --max-turns 200"
+          claude_args: "--model claude-opus-4-6 --max-turns 200"
           prompt: |
             You are the autonomous daily curator for **benchflow-ai/awesome-evals**. Find NEW, genuinely
             high-signal agent-evaluation content, vet it RUTHLESSLY, verify it, and open ONE review PR — or
