@@ -178,6 +178,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[RAGChecker](https://github.com/amazon-science/RAGChecker)** — Amazon Science — <https://github.com/amazon-science/RAGChecker> — 🆕 claim-level diagnosis separating retriever vs generator errors.
 - **[continuous-eval (Relari)](https://github.com/relari-ai/continuous-eval)** — <https://github.com/relari-ai/continuous-eval> — modular per-module metrics across retrieval/generation/tool-use.
 - **[Tonic Validate](https://github.com/TonicAI/tonic_validate)** — <https://github.com/TonicAI/tonic_validate> — RAG metrics as a GitHub Action for CI.
+- **[CrossSource](https://github.com/zoeb-nomi/crosssource)** — Zoeb Nomi — <https://github.com/zoeb-nomi/crosssource> — 🆕 citation-accuracy eval harness for RAG over public court opinions; validated LLM-as-judge (15/15 blind human agreement), claim-level citation precision/recall, and a prompting-vs-retrieval failure taxonomy.
 
 ### 5d · LLM-as-judge / reward / verifier libraries
 - **[verdict](https://github.com/haizelabs/verdict)** — Haize Labs — <https://github.com/haizelabs/verdict> — 🆕 declarative compound judges (debate/verification/aggregation, inference-time scaling); arXiv:2502.18018.
