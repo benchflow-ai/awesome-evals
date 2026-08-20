@@ -1,0 +1,112 @@
+name: Biweekly changelog
+
+# Rolls merged PRs into CHANGELOG.md on a ~biweekly cadence and opens a PR — never pushes to
+# main, never merges itself. A human reviews and merges it like any other PR (see
+# CONTRIBUTING.md / SCAN.md). Purely mechanical: reads `gh pr list`, no model calls.
+
+on:
+  schedule:
+    - cron: "0 14 1,15 * *"   # ~biweekly: 1st and 15th of each month, 14:00 UTC
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "Override the start date (YYYY-MM-DD) instead of reading it from CHANGELOG.md"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: awesome-evals-changelog
+  cancel-in-progress: false
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Roll up merged PRs since the last entry
+        id: rollup
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SINCE_OVERRIDE: ${{ github.event.inputs.since }}
+        run: |
+          set -euo pipefail
+
+          # The cursor is the most recent dated header already in CHANGELOG.md (## [YYYY-MM-DD]),
+          # skipping the standing ## [Unreleased] section — so this is idempotent even if the repo
+          # went quiet for a cycle (a rerun just produces an empty-but-valid window, see below).
+          since="${SINCE_OVERRIDE:-$(grep -oE '^## \[[0-9]{4}-[0-9]{2}-[0-9]{2}\]' CHANGELOG.md | head -1 | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')}"
+          if [ -z "$since" ]; then
+            echo "::error::No prior dated entry found in CHANGELOG.md and no --since override given."
+            exit 1
+          fi
+          today="$(date -u +%F)"
+          echo "since=$since" >> "$GITHUB_OUTPUT"
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+
+          prs=$(gh pr list -R "$GITHUB_REPOSITORY" --state merged --limit 200 \
+                  --json number,title,mergedAt,url \
+                  --jq "[.[] | select(.mergedAt > \"${since}T00:00:00Z\")] | sort_by(.mergedAt)")
+          count=$(echo "$prs" | jq 'length')
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          if [ "$count" -eq 0 ]; then
+            echo "No PRs merged since $since — nothing to roll up."
+            exit 0
+          fi
+
+          # Cheap keyword classification from PR titles (this repo's own commit-message convention
+          # makes "Correct"/"Fix"/"Remove"/"Prune" reliable signals). Anything else defaults to Added,
+          # which is correct for the overwhelming majority of PRs here (new list entries).
+          added=$(echo "$prs" | jq -r '.[] | select(.title | test("^(Correct|Fix|Remove|Prune|Bump|Bypass|Harden)"; "i") | not) | "- \(.title) (#\(.number))"')
+          changed=$(echo "$prs" | jq -r '.[] | select(.title | test("^(Correct|Bump|Bypass|Harden)"; "i")) | "- \(.title) (#\(.number))"')
+          fixed=$(echo "$prs" | jq -r '.[] | select(.title | test("^Fix"; "i")) | "- \(.title) (#\(.number))"')
+          removed=$(echo "$prs" | jq -r '.[] | select(.title | test("^(Remove|Prune)"; "i")) | "- \(.title) (#\(.number))"')
+
+          {
+            echo "## [$today]"
+            [ -n "$added" ]   && { echo "### Added";   echo "$added";   }
+            [ -n "$changed" ] && { echo "### Changed"; echo "$changed"; }
+            [ -n "$fixed" ]   && { echo "### Fixed";   echo "$fixed";   }
+            [ -n "$removed" ] && { echo "### Removed"; echo "$removed"; }
+            echo
+          } > /tmp/new-entry.md
+
+          cat /tmp/new-entry.md
+
+      - name: Insert entry into CHANGELOG.md
+        if: steps.rollup.outputs.count != '0'
+        run: |
+          set -euo pipefail
+          # Insert right after the "## [Unreleased]" line (which always stays empty/at the top).
+          awk '
+            /^## \[Unreleased\]/ { print; getline; print; while ((getline line < "/tmp/new-entry.md") > 0) print line; next }
+            { print }
+          ' CHANGELOG.md > /tmp/CHANGELOG.md.new
+          mv /tmp/CHANGELOG.md.new CHANGELOG.md
+
+      - name: Open the release PR
+        if: steps.rollup.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SINCE: ${{ steps.rollup.outputs.since }}
+          TODAY: ${{ steps.rollup.outputs.today }}
+          COUNT: ${{ steps.rollup.outputs.count }}
+        run: |
+          set -euo pipefail
+          branch="changelog/${TODAY}"
+          git config user.name "awesome-evals-changelog"
+          git config user.email "actions@github.com"
+          git checkout -b "$branch"
+          git add CHANGELOG.md
+          git commit -m "Changelog: ${SINCE}..${TODAY} (${COUNT} merged PRs)"
+          git push -u origin "$branch"
+          gh pr create -R "$GITHUB_REPOSITORY" --base main --head "$branch" \
+            --title "Changelog: ${SINCE}..${TODAY}" \
+            --body "Mechanical rollup of the ${COUNT} PR(s) merged since ${SINCE}. Review the categorization (title-keyword heuristic — reclassify by hand if a PR was miscategorized) and merge like any other PR."

@@ -34,6 +34,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - [Notes on provenance & gaps](#notes-on-provenance-gaps)
 - [Deep notes](#deep-notes)
 - [Contributing](#contributing)
+- [Changelog](CHANGELOG.md)
 - [License](#license)
 
 ---
@@ -580,6 +581,8 @@ This repo ships **143 deep reading notes** in [`notes/`](notes/) — structured 
 ## Contributing
 
 PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories beat hot takes), give every entry a one-line *why*, verify the URL, and flag caveats. See [CONTRIBUTING.md](CONTRIBUTING.md). Quality over quantity — a great list is as much about what it *excludes*.
+
+Additions land continuously via reviewed PRs (manual + [the daily scan](SCAN.md)); a [biweekly workflow](.github/workflows/changelog.yml) rolls them up into [CHANGELOG.md](CHANGELOG.md) as its own reviewed PR — see [CHANGELOG.md](CHANGELOG.md) for what shipped when.
 
 ## License
 
