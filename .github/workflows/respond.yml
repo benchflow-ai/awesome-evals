@@ -46,7 +46,7 @@ jobs:
           # 401; the bot only needs to comment, which GITHUB_TOKEN + the permissions above cover).
           github_token: ${{ secrets.GITHUB_TOKEN }}
           settings: ".github/claude-respond-settings.json"
-          claude_args: "--model claude-sonnet-4-6 --max-turns 25"
+          claude_args: "--model claude-opus-4-6 --max-turns 25"
           prompt: |
             You are the assistant for the **benchflow-ai/awesome-evals** repo — a curated, non-BS agent-evals
             list. Post exactly ONE warm, concise, technical comment. You may ONLY comment: never edit files,
