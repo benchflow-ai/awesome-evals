@@ -349,6 +349,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[First-Principles Eval](https://leehanchung.github.io/blogs/2024/05/22/first-principles-eval/)** — Han-Chung Lee — <https://leehanchung.github.io/blogs/2024/05/22/first-principles-eval/> · *blog*.
 - **[SWE-bench grading harness](https://github.com/SWE-bench/SWE-bench/blob/main/swebench/harness/grading.py)** — <https://github.com/SWE-bench/SWE-bench/blob/main/swebench/harness/grading.py> · *tool/repo* — FAIL_TO_PASS / PASS_TO_PASS as a verifiable reward. (SWE-agent ACI: <https://swe-agent.com/0.7/background/aci/>)
 - **[human-eval (pass@k estimator)](https://github.com/openai/human-eval/blob/master/human_eval/evaluation.py)** — OpenAI — <https://github.com/openai/human-eval/blob/master/human_eval/evaluation.py> · *tool/repo*.
+- **[Mendmark: Mutation Testing for Agent Evals](https://danielgaskins.com/mendmark.html)** — Daniel Gaskins — <https://github.com/danielgaskins/mendmark> · *benchmark/tool* — 🆕 a versioned golden set plants 263 controlled faults across 24 passing agent cases; the response-only evaluator catches 87 and misses 176, while exact trace-and-outcome checks catch all 263. Reproducible offline without model calls.
 - **More agent benchmarks to add** *(named in the brief; URLs not yet verified in this corpus — verify before use):* WebArena, OSWorld, Terminal-Bench, Cybench.
 
 - **[WebArena: A Realistic Web Environment for Building Autonomous Agents](https://arxiv.org/abs/2307.13854)** — Zhou et al. (CMU) — <https://arxiv.org/abs/2307.13854> · *benchmark* — Self-hostable sandboxed websites (e-commerce/forum/GitLab/CMS/maps) with execution-based functional-correctness graders; 812 tasks. The canonical web-agent world-state benchmark named in the brief — now URL-verified.
@@ -586,6 +587,5 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
