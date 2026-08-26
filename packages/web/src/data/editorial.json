@@ -1,0 +1,44 @@
+{
+  "sectionMeta": {
+    "1": {
+      "title": "Why we need evals",
+      "sub": "The case for evals: error analysis, the scientific method, vibe-check→assertion"
+    },
+    "2": {
+      "title": "If you can eval it, you have built it",
+      "sub": "eval ⇄ capability ⇄ RL environment — verifier’s law"
+    },
+    "3": {
+      "title": "The model / harness / skill decomposition",
+      "sub": "Same model, different harness, opposite ranking"
+    },
+    "4": {
+      "title": "Observability & the eval space",
+      "sub": "The surfaces you can grade: output, trace, memory, environment"
+    },
+    "5": {
+      "title": "Evaluation infrastructure",
+      "sub": "The eval stack: datasets, scorers, online/offline, tracing, CI"
+    },
+    "6": {
+      "title": "Benchmark vs. eval & benchmark integrity",
+      "sub": "Contamination, saturation, label errors, leaderboard gaming"
+    },
+    "7": {
+      "title": "Evals & RL environments",
+      "sub": "Verifiers, reward design, difficulty calibration, lifecycle"
+    },
+    "8": {
+      "title": "LLM-as-judge & verifiers",
+      "sub": "Alignment, biases, verifiable vs judgeable"
+    },
+    "9": {
+      "title": "Agent-specific evaluation",
+      "sub": "Trajectories, tool use, multi-turn, world state, multi-agent"
+    },
+    "10": {
+      "title": "Safety / adversarial evaluation",
+      "sub": "Prompt injection, jailbreaks, action-authorization, auditing"
+    }
+  }
+}
