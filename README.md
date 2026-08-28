@@ -11,7 +11,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **47 talks & podcasts transcribed and deep-noted** (verbatim + timestamps), and
 - **per-section gap audits** with adversarial verification.
 
-**443+ curated links · 143 deep reading notes** (see [`notes/`](notes/)). Markers: 🆕 = released/updated 2025–2026 · ⚠️ = caveat. Contributions welcome — see [CONTRIBUTING](CONTRIBUTING.md).
+**443+ curated links · 144 deep reading notes** (see [`notes/`](notes/)). Markers: 🆕 = released/updated 2025–2026 · ⚠️ = caveat. Contributions welcome — see [CONTRIBUTING](CONTRIBUTING.md).
 
 > 📘 **Playbook:** [**PATTERNS.md**](PATTERNS.md) — real, runnable code + worked examples for LLM-as-judge (aligned to humans), pass@k/pass^k, error analysis, trajectory & world-state grading, CI gating, verifiable rewards, and more.
 
@@ -119,6 +119,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Holistic Agent Leaderboard (HAL)](https://hal.cs.princeton.edu/)** — Princeton SAgE team (Kapoor, Narayanan, et al.) — <https://hal.cs.princeton.edu/> · *benchmark* — Standardized, cost-aware harness that runs the SAME agent harness across 9 benchmarks/9 models (21,730 rollouts) — the infrastructure answer to 'harness confounds rankings.' ICLR 2026; paper arXiv:2510.11977. 🆕
 - **[Agent Harness Engineering](https://www.oreilly.com/radar/agent-harness-engineering/)** — Addy Osmani (O'Reilly Radar) — <https://www.oreilly.com/radar/agent-harness-engineering/> · *blog* — 'A decent model with a great harness beats a great model with a bad harness'; reframes agent failures as harness/config problems (traceable AGENTS.md rules). Names the converging harness primitives across coding agents. 🆕
 - **[What comes next with open models (weights / tools / harness decomposition)](https://www.interconnects.ai/p/the-next-phase-of-open-models)** — Nathan Lambert (Interconnects) — <https://www.interconnects.ai/p/the-next-phase-of-open-models> · *blog* — Lambert's written articulation (Mar 2026) of an AI system as weights + tools + harness — the written companion to the Turing Post interview already listed, with the explicit three-part decomposition. 🆕
+- **[44% vs 85%: your first cross-agent eval measures your eval harness, not the model](https://coder-eval.com/blog/cross-agent-eval-measures-your-eval-harness)** — Coder Eval (UiPath) — <https://coder-eval.com/blog/cross-agent-eval-measures-your-eval-harness> · *blog* — Hand-audit of 227 of 228 failures behind a 41-point Codex/Claude Code gap over 417 shared tasks: 63% harness-unfair, 11% genuine, ~89% outside the model's control; one flaky file-edit backend caused 106. Fixing the harness and re-running moved Codex 44% → 76% against 82%. Contributes the *inverse law of gap size* — the bigger a per-skill gap, the less likely it is real — and a `pre_run` pre-flight that fails a broken environment out of the denominator. 🆕
 
 **Must-reads:** Lee (harness) · Brand (Quo vadis)
 
@@ -571,7 +572,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 
 ## Deep notes
 
-This repo ships **143 deep reading notes** in [`notes/`](notes/) — structured summaries with key points, **verbatim quotes**, and themes, for the highest-signal sources:
+This repo ships **144 deep reading notes** in [`notes/`](notes/) — structured summaries with key points, **verbatim quotes**, and themes, for the highest-signal sources:
 
 - [`notes/articles/`](notes/articles/) — blog posts & practitioner essays
 - [`notes/talks/`](notes/talks/) — 47 transcribed talks, podcasts & lectures (with `[mm:ss]` timestamps)
