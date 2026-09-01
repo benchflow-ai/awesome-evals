@@ -340,6 +340,8 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 
 ## 9 · Agent-specific evaluation (trajectories, tool use, multi-turn, world state, multi-agent, localization)
 
+- **Agent Amusement Park** — AgentAmusementPark — [repository](https://github.com/AgentAmusementPark/agent-amusement-park) · *benchmark* — Three deterministic stateful environments grade complete agent trajectories against evidence-linked rules rather than task completion alone; AGPL source, no-signup runnable demo, and signed scorecards. 🆕
+
 - **[Demystifying Evals for AI Agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)** — Anthropic — <https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents> · *blog* — Grade the final env state (flight-booking via SQL); outcome vs trajectory; isolation; pass@k vs pass^k.
 - **[τ-bench / τ²-bench](https://arxiv.org/abs/2406.12045)** — Sierra — <https://arxiv.org/abs/2406.12045> · <https://github.com/sierra-research/tau-bench> · *paper/repo* — DB-state-diff grading; user simulation; pass^k; empty-result as explicit fail.
 - **[Benchmarking AI Agents](https://sierra.ai/blog/benchmarking-ai-agents)** — Sierra — <https://sierra.ai/blog/benchmarking-ai-agents> · *blog* — The motivation behind τ-bench.
