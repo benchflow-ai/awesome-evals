@@ -303,7 +303,9 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Systematic Reward Hacking and Prime Sprints](https://www.primeintellect.ai/blog/reward-hacking)** — Jessica Li (Prime Intellect) — <https://www.primeintellect.ai/blog/reward-hacking> · *blog* — Controlled study using the backdoor-ifeval family of environments at 1B scale, reproducible for ~$0.64: "Hacking is fundamentally a gradient dynamics problem. The same reward function can produce hacking or not depending on how learnable the legitimate task is, what the model's prior puts weight on, and the within batch variance." Key findings: no frequency floor for exploited tokens; moderate task difficulty resists hacking better than easy or impossible tasks; semantic prompt guardrails ("Restrict" condition) counterintuitively accelerated hacking onset. 🆕
 
 **Must-reads:** Lee (RL-env taxonomy) · Garg (lifecycle) · verifiers (repo)
+## 9 · Agent-specific evaluation
 
+- **Agent Amusement Park** — AgentAmusementPark — [repository](https://github.com/AgentAmusementPark/agent-amusement-park) · *benchmark* — Three deterministic stateful environments grade complete agent trajectories against evidence-linked rules rather than task completion alone; AGPL source, no-signup runnable demo, and signed scorecards. 🆕
 ## 8 · LLM-as-judge & verifiers (alignment, biases, verifiable vs judgeable)
 
 - **[Evaluating the Effectiveness of LLM-Evaluators](https://eugeneyan.com/writing/llm-evaluators/)** — Eugene Yan — <https://eugeneyan.com/writing/llm-evaluators/> · *blog* — Position/verbosity/self-enhancement bias; direct vs pairwise; prefer binary + classification metrics.
