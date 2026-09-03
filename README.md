@@ -468,7 +468,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Using LLMs as Judges: Insights, Challenges, Best Practices](https://www.youtube.com/watch?v=7EGF0Mc0_os)** — Eugene Yan — <https://www.youtube.com/watch?v=7EGF0Mc0_os> · *talk* (Jason Liu series 2024)
 - **[Scaling Up Vibe Checks for LLMs](https://www.youtube.com/watch?v=eGVDKegRdgM)** — Shreya Shankar — <https://www.youtube.com/watch?v=eGVDKegRdgM> · *talk* (Stanford MLSys #97)
 - **[Why LLM Data Processing Pipelines Fail](https://www.youtube.com/watch?v=H-1QaLPnGsg)** — Shreya Shankar — <https://www.youtube.com/watch?v=H-1QaLPnGsg> · *talk* (LangChain Interrupt 2025)
-- **[Evals Are Not Unit Tests](https://www.youtube.com/watch?v=L8OoYeDI_ls)** — Ido Pesok (Vercel v0) — <https://www.youtube.com/watch?v=L8OoYeDI_ls> · *talk* (AI Engineer 2025)
+- **[Evals Are Not Unit Tests](https://www.youtube.com/watch?v=L8OoYeDI_ls)** — Ido Pesok (Vercel v0) — <https://www.youtube.com/watch?v=L8OoYeDI_ls> · *talk* (AI Engineer 2025). [Annotated summary](https://aietalks.com/talks/evals-are-not-unit-tests)
 - **[Building Metrics that actually work (workshop)](https://www.youtube.com/watch?v=jxrGodnopHo)** — David Karam (Pi Labs) — <https://www.youtube.com/watch?v=jxrGodnopHo> · *talk* (AI Engineer 2025)
 - **[From Self-driving to Autonomous Voice Agents](https://www.youtube.com/watch?v=kDczF4wBh8s)** — Brooke Hopkins (Coval) — <https://www.youtube.com/watch?v=kDczF4wBh8s> · *talk* (AI Engineer 2025)
 - **[Fuzzing in the GenAI Era](https://www.youtube.com/watch?v=OMGPvW8TBHc)** — Leonard Tang (Haize Labs) — <https://www.youtube.com/watch?v=OMGPvW8TBHc> · *talk* (AI Engineer 2025)
@@ -586,6 +586,5 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
