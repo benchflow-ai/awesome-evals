@@ -278,6 +278,17 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Benchmarking the Benchmarks: A Validity Audit of Tool-Calling Evaluation](https://arxiv.org/abs/2607.02577)** — Bhat, Vaghasiya, Mohsin, Aali — <https://arxiv.org/abs/2607.02577> · *paper (Jun/Jul 2026)* — Cross-benchmark validity audit of BFCL v4, τ²-Bench, LiveMCPBench, and MCP-Atlas across 496 expert-reviewed tasks. Key findings: "92 evaluator-human disagreements, corresponding to an 18.5% misalignment rate"; 23 repeated identical LiveMCPBench runs produce scores ranging from 57.9% to 76.8% — "a spread of 18.9 percentage points" large enough to flip leaderboard conclusions. Introduces Tool-Veritas and Harness Lab tooling for practitioners auditing their own benchmark choices. 🆕
 - **[Prediction: A Frontier Open Source LLM Will Be Released On 3rd December 2026](https://blog.doubleword.ai/frontier-os-llm)** — Jamie Dborin (Doubleword) — <https://blog.doubleword.ai/frontier-os-llm> · *blog* — Extrapolates the Artificial Analysis Intelligence Index across 18 constituent benchmarks to forecast the open-vs-closed capability gap; a naive fit of the headline index points to convergence by 3 Dec 2026, but the average per-benchmark lag holds steady at ~5 months — a worked cautionary case in reading trends off an aggregate leaderboard index rather than its components. 🆕
 
+### Public benchmarks & leaderboards
+
+Use these as discovery and comparison surfaces, not as interchangeable ground truth: inspect the underlying benchmark, version, harness, run configuration, sample count, and provenance before comparing scores.
+
+- **[evals.report](https://evals.report/)** — Inductive — <https://evals.report/> · *benchmark-score index* — Keeps official leaderboard scores, vendor-reported launches, and community reproductions separate, with source, benchmark version, run context, and caveats attached; deliberately refuses cross-benchmark composite rankings. 🆕
+- **[BenchmarkList](https://benchmarklist.com/)** — BenchmarkList — <https://benchmarklist.com/> · *benchmark directory/index* — Public index of AI benchmarks, model scores, and score provenance assembled from timestamped primary-source snapshots; useful for discovering what was measured and where each number came from. 🆕 ⚠️ its Experimental Capability Index stitches heterogeneous results onto a synthetic scale, so read the underlying benchmark rows.
+- **[Artificial Analysis](https://artificialanalysis.ai/)** — Artificial Analysis — <https://artificialanalysis.ai/> · *independent evaluator/leaderboard* — Independently runs model and coding-agent evaluations and pairs capability results with observed cost, token use, latency, and inference performance across language, image, video, and speech systems. 🆕 ⚠️ headline composite indices encode a chosen benchmark mix and weighting; use the per-eval breakdowns for decisions.
+- **[Vals AI](https://www.vals.ai/benchmarks)** — Vals AI — <https://www.vals.ai/benchmarks> · *independent evaluator/leaderboard* — Publishes model and agent results on realistic finance, legal, healthcare, coding, education, and multimodal tasks, with methodology pages covering task design, uncertainty, cost, and latency. 🆕 ⚠️ private holdout sets reduce test leakage but limit independent reproduction of the published scores.
+- **[Arena.ai](https://arena.ai/leaderboard)** — Arena Intelligence — <https://arena.ai/leaderboard> · *human-preference arena/leaderboard* — Live blind pairwise rankings across agent, text, WebDev, image, video, vision, and document tasks, exposing vote volume and uncertainty alongside scores. 🆕 ⚠️ rankings measure preference under the arena's changing user, prompt, model-serving, and style-control mix—not objective task correctness.
+- **[Design Arena](https://www.designarena.ai/leaderboard)** — Intelligence — <https://www.designarena.ai/leaderboard> · *visual-output arena/leaderboard* — Crowdsourced head-to-head evaluation of visible generated artifacts across agentic and non-agentic web development, UI, games, data visualization, 3D, mobile, image, video, and slides. 🆕 ⚠️ category-specific harnesses and low-vote new models make cross-category or early-rank comparisons unreliable.
+
 **Must-reads:** Press · Kapoor et al. · OpenAI (SWE-bench Verified) · Leaderboard Illusion
 
 ## 7 · Evals & RL environments (verifiers, reward design, difficulty calibration, lifecycle)
@@ -586,6 +597,5 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
