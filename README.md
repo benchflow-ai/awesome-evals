@@ -219,6 +219,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Helicone](https://github.com/helicone/helicone)** — <https://github.com/helicone/helicone> — OSS gateway + observability; "Scores" ingests external eval results.
 - **[Traceloop / OpenLLMetry](https://github.com/traceloop/openllmetry)** — <https://github.com/traceloop/openllmetry> — OSS OTel instrumentation (Py/TS/Go/Ruby) + hosted reliability platform.
 - **[Langtrace](https://github.com/Scale3-Labs/langtrace)** — <https://github.com/Scale3-Labs/langtrace> — OSS OTel-standard tracing + manual scoring + dataset mgmt.
+- **[OrcaReplay](https://github.com/Continuum-AI-Corp/OrcaReplay)** — <https://github.com/Continuum-AI-Corp/OrcaReplay> — 🆕 OSS record/replay for coding-agent harnesses: captures below the harness (no SDK), keeps verbatim wire bytes, re-runs the same session offline and forks it onto other models with a `--verify` exit code as the verdict.
 - **[WhyLabs / LangKit](https://github.com/whylabs/langkit)** — <https://github.com/whylabs/langkit> — high-throughput text-signal metrics (toxicity, PII, jailbreak) for production monitoring.
 - **[Portkey](https://github.com/portkey-ai/gateway)** — <https://github.com/portkey-ai/gateway> — 🆕 OSS gateway + 60+ guardrails + observability (fully open-sourced Mar 2026).
 - **[Datadog LLM Observability](https://www.datadoghq.com/product/ai/llm-observability/)** — <https://www.datadoghq.com/product/ai/llm-observability/> — 🆕 evaluators + golden datasets + **LLM Experiments** + AI Agent Monitoring (Jun 2025).
