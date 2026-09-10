@@ -504,6 +504,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Evaluating AI, Designing for Non-Determinism](https://www.youtube.com/watch?v=v0eTTn7ZPEc)** — Aman Khan (Learning from ML) — <https://www.youtube.com/watch?v=v0eTTn7ZPEc> · *podcast* (Learning from Machine Learning)
 - **[Karpathy: RL is terrible, why benchmarks mislead](https://www.youtube.com/watch?v=-lRBpyPt79c)** — Andrej Karpathy (Dwarkesh) — <https://www.youtube.com/watch?v=-lRBpyPt79c> · *podcast* (Dwarkesh Podcast)
 - **[How to Build AI Evals in 2026 (Step-by-Step)](https://www.youtube.com/watch?v=J7N9FMouSKg)** — Hamel Husain & Shreya Shankar — <https://www.youtube.com/watch?v=J7N9FMouSKg> · *podcast* (Aakash Gupta 2026)
+- **[Practical Lessons for GenAI Evals](https://chainofthought.show/podcast/5-practical-lessons-for-genai-evals-chip-huyen-and-vivienne-zhang/)** — Chip Huyen & Vivienne Zhang (Chain of Thought) — <https://chainofthought.show/podcast/5-practical-lessons-for-genai-evals-chip-huyen-and-vivienne-zhang/> · *podcast* (Chain of Thought) — Breaks agent evals into task completion under constraints, tool and parameter validity, plan efficiency, and metrics at each failure point.
 
 ### 🎓 University lectures
 - **[Towards Building Safe & Trustworthy AI Agents](https://www.youtube.com/watch?v=QAgR4uQ15rc)** — Dawn Song — <https://www.youtube.com/watch?v=QAgR4uQ15rc> · *lecture* (Berkeley LLM Agents MOOC F24)
