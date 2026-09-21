@@ -216,6 +216,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Maxim AI](https://www.getmaxim.ai/)** — <https://www.getmaxim.ai/> — 🆕 agent **simulation** + eval + observability across thousands of scenarios/personas.
 - **[Galileo](https://galileo.ai/)** — <https://galileo.ai/> — Luna evaluators + Agentic Evaluations.
 - **[Vellum](https://www.vellum.ai/)** — <https://www.vellum.ai/> — visual workflows + offline/online evals scoring every production run.
+- **[Jetty](https://jetty.io)** — <https://jetty.io> — hosted platform: runs agent workloads as runbooks in isolated sandboxes, scores each run with code checks, checklists and LLM judges, and keeps every run as a replayable trajectory for failure investigation. 🆕
 - **[Helicone](https://github.com/helicone/helicone)** — <https://github.com/helicone/helicone> — OSS gateway + observability; "Scores" ingests external eval results.
 - **[Traceloop / OpenLLMetry](https://github.com/traceloop/openllmetry)** — <https://github.com/traceloop/openllmetry> — OSS OTel instrumentation (Py/TS/Go/Ruby) + hosted reliability platform.
 - **[Langtrace](https://github.com/Scale3-Labs/langtrace)** — <https://github.com/Scale3-Labs/langtrace> — OSS OTel-standard tracing + manual scoring + dataset mgmt.
