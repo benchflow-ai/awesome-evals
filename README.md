@@ -11,7 +11,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **47 talks & podcasts transcribed and deep-noted** (verbatim + timestamps), and
 - **per-section gap audits** with adversarial verification.
 
-**443+ curated links · 143 deep reading notes** (see [`notes/`](notes/)). Markers: 🆕 = released/updated 2025–2026 · ⚠️ = caveat. Contributions welcome — see [CONTRIBUTING](CONTRIBUTING.md).
+**443+ curated links · 144 deep reading notes** (see [`notes/`](notes/)). Markers: 🆕 = released/updated 2025–2026 · ⚠️ = caveat. Contributions welcome — see [CONTRIBUTING](CONTRIBUTING.md).
 
 > 📘 **Playbook:** [**PATTERNS.md**](PATTERNS.md) — real, runnable code + worked examples for LLM-as-judge (aligned to humans), pass@k/pass^k, error analysis, trajectory & world-state grading, CI gating, verifiable rewards, and more.
 
@@ -385,6 +385,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Berkeley Function Calling Leaderboard (BFCL) V4](https://gorilla.cs.berkeley.edu/leaderboard.html)** — Patil et al., UC Berkeley (Gorilla / ICML 2025) — <https://gorilla.cs.berkeley.edu/leaderboard.html> · *leaderboard* — Executable + AST-based grading of tool/function calling; V4 adds multi-turn agentic, web-search and memory tasks — the de facto tool-calling leaderboard. 🆕
 - **[GTA: A Benchmark for General Tool Agents](https://arxiv.org/abs/2407.08713)** — Wang et al., Shanghai AI Laboratory (NeurIPS 2024 D&B) — <https://arxiv.org/abs/2407.08713> · *benchmark* — 229 human-written real-world queries with implicit multimodal tool use; executable evaluation platform across perception/operation/logic/creativity tools (GTA-2 follow-up in 2026). 🆕
 - **[Spider 2.0: Evaluating Language Models on Real-World Enterprise Text-to-SQL Workflows](https://arxiv.org/abs/2411.07763)** — Lei et al., XLang Lab / HKU (ICLR 2025 Oral) — <https://arxiv.org/abs/2411.07763> · *benchmark* — Enterprise text-to-SQL agent workflows over huge schemas and multiple dialects with execution-based grading; frontier models only ~17-21% — a hard, realistic data-agent eval. 🆕
+- **[BIRD-INTERACT: Re-imagining Text-to-SQL Evaluation via Lens of Dynamic Interactions](https://openreview.net/forum?id=nHrYBGujps)** — Huo et al. (ICLR 2026 Oral) — <https://github.com/bird-bench/BIRD-Interact> · *benchmark* — Moves text-to-SQL eval from static dialogue histories to dynamic clarification and tool use: 600 interactive tasks across BI and state-changing database work, graded by executable tests under conversational and agent-led protocols. 🆕
 - **[AndroidWorld: A Dynamic Benchmarking Environment for Autonomous Agents](https://arxiv.org/abs/2405.14573)** — Rawles et al., Google DeepMind / Google Research (ICLR 2025) — <https://arxiv.org/abs/2405.14573> · *benchmark* — Live Android environment with durable reward signals from device system state for 116 parameterized tasks across 20 apps — the standard mobile-GUI agent benchmark. 🆕
 - **[WindowsAgentArena: Evaluating Multi-Modal OS Agents at Scale](https://arxiv.org/abs/2409.08264)** — Bonatti et al., Microsoft — <https://arxiv.org/abs/2409.08264> · *benchmark* — 154 realistic multi-step Windows-OS tasks across apps with programmatic success checks; parallelizable in Azure (~20 min full run) — desktop computer-use counterpart to OSWorld. 🆕
 - **[Running the Gauntlet: Re-evaluating the Capabilities of Agents Beyond Familiar Environments](https://arxiv.org/abs/2606.14397)** — Vysotskyi, Gal, Torr, Bibi et al. (Oxford) — <https://arxiv.org/abs/2606.14397> · *benchmark* — 🆕 **GauntletBench**: 100 vision-intensive tasks across five less-covered professional applications (Video Editor, Workflow Builder, 3D Modeller, Flight Analyser, Circuit Designer) requiring temporal, graphical, and 3D reasoning; "state-of-the-art agent achieves only a 19.1% success rate" vs. "non-expert human annotators achieve over 80% success" — a diagnostic gap in professional-tool computer-use not covered by existing desktop or web benchmarks.
@@ -571,7 +572,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 
 ## Deep notes
 
-This repo ships **143 deep reading notes** in [`notes/`](notes/) — structured summaries with key points, **verbatim quotes**, and themes, for the highest-signal sources:
+This repo ships **144 deep reading notes** in [`notes/`](notes/) — structured summaries with key points, **verbatim quotes**, and themes, for the highest-signal sources:
 
 - [`notes/articles/`](notes/articles/) — blog posts & practitioner essays
 - [`notes/talks/`](notes/talks/) — 47 transcribed talks, podcasts & lectures (with `[mm:ss]` timestamps)
@@ -586,6 +587,4 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
-
 
