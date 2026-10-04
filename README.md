@@ -101,6 +101,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 
 ## 3 · The model / harness / skill decomposition
 
+- **[AI Benchmark Scores Change. The Model Often Doesn't.](https://www.thequery.in/research/benchmark-comparability)** — Addy (TheQuery) — <https://www.thequery.in/research/benchmark-comparability> · *blog/analysis* — Dated audit of 837 reported benchmark observations, with primary-source examples of tool, harness, and grader effects; includes versioned data and reproducible audit code. 🆕 ⚠️ Compiled reported results, not independent benchmark runs.
 - **[Hidden Technical Debt: Agent Harness](https://leehanchung.github.io/blogs/2026/05/08/hidden-technical-debt-agent-harness/)** — Han-Chung Lee — <https://leehanchung.github.io/blogs/2026/05/08/hidden-technical-debt-agent-harness/> · *blog* — The harness is the agent; what teams call "the model" is mostly harness + product.
 - **[Hidden Technical Debt series (index)](https://leehanchung.github.io/blogs/)** — Han-Chung Lee — <https://leehanchung.github.io/blogs/> · *blog* — The four-part series (eval infra, runtime, harness, + agent runtime ~2026/04/24). *(verify the runtime post URL on the index.)*
 - **[Measuring AI Ability to Complete Long Tasks](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/)** — METR — <https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/> · *paper/blog* — Scaffolds change the measured horizon; success-vs-human-time as a primitive. (also T9)
