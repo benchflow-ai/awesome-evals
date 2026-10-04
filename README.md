@@ -280,6 +280,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 
 **Must-reads:** Press · Kapoor et al. · OpenAI (SWE-bench Verified) · Leaderboard Illusion
 
+- **[ModelBenchmark](https://modelbenchmark.io)** — ModelBenchmark — <https://modelbenchmark.io> · *leaderboard* — Composite of 16 public benchmarks for 202 models, plus prices, context windows, and release dates for 2,406 models.
 ## 7 · Evals & RL environments (verifiers, reward design, difficulty calibration, lifecycle)
 
 *(See also T2 — verifiers library, Lee's RL-env taxonomy, Garg's lifecycle, Wei's verifier's law.)*
