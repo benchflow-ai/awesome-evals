@@ -340,6 +340,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 
 ## 9 · Agent-specific evaluation (trajectories, tool use, multi-turn, world state, multi-agent, localization)
 
+- **[Check a browser-agent result before timing it](https://github.com/liubrain39/browsesprint-resources/blob/codex/public-resources/docs/browser-result-verification.md)** — Brain Liu (BrowseSprint) — <https://github.com/liubrain39/browsesprint-resources/blob/codex/public-resources/docs/browser-result-verification.md> · *field notes / worked example* — Distinguishes action attempts from verified outcomes using a missing form receipt, a public-page HTML check and an unmerged submission; includes a read-only Python example. 🆕 ⚠️ Author-run observations, not controlled timing results.
 - **[Demystifying Evals for AI Agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)** — Anthropic — <https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents> · *blog* — Grade the final env state (flight-booking via SQL); outcome vs trajectory; isolation; pass@k vs pass^k.
 - **[τ-bench / τ²-bench](https://arxiv.org/abs/2406.12045)** — Sierra — <https://arxiv.org/abs/2406.12045> · <https://github.com/sierra-research/tau-bench> · *paper/repo* — DB-state-diff grading; user simulation; pass^k; empty-result as explicit fail.
 - **[Benchmarking AI Agents](https://sierra.ai/blog/benchmarking-ai-agents)** — Sierra — <https://sierra.ai/blog/benchmarking-ai-agents> · *blog* — The motivation behind τ-bench.
