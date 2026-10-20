@@ -243,6 +243,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 
 ## 6 · Benchmark vs. eval (and benchmark integrity: contamination, saturation, label errors, leaderboard gaming)
 
+- **[Don't Pass@k: A Bayesian Framework for Large Language Model Evaluation](https://arxiv.org/abs/2510.04265)** — Hariri et al. — <https://arxiv.org/abs/2510.04265> · *paper (ICLR 2026)* — Bayes@N estimates LLM performance and uncertainty from repeated samples with binary or graded outcomes. It studies ranking instability under limited sampling. [Video](https://mohsenhariri.github.io/assets/videos/bayes-at-n/bayes-at-n.mp4) · [Code](https://github.com/mohsenhariri/scorio). 🆕
 - **[How to Build Good Language Modeling Benchmarks](https://ofir.io/How-to-Build-Good-Language-Modeling-Benchmarks/)** — Ofir Press — <https://ofir.io/How-to-Build-Good-Language-Modeling-Benchmarks/> · *blog* — The benchmark-author's checklist; difficulty target; one-number reporting; 150–500 task sizing.
 - **[AI Agents That Matter](https://arxiv.org/abs/2407.01502)** — Kapoor et al. — <https://arxiv.org/abs/2407.01502> · *paper* — Cost-controlled evaluation; model-dev vs downstream-dev needs; holdouts.
 - **[Why We No Longer Evaluate SWE-bench Verified](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/)** — OpenAI — <https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/> · *blog* — ~59% of audited failures were broken tests. (mirror: <https://decrypt.co/359012/...>)
