@@ -225,6 +225,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Fiddler AI](https://www.fiddler.ai/)** — <https://www.fiddler.ai/> — 🆕 Trust Models (Safety/PII/Faithfulness) scoring in <100ms; Guardrails + agentic observability.
 - **[PromptLayer](https://www.promptlayer.com/)** — <https://www.promptlayer.com/> · **New Relic AI Monitoring** — <https://newrelic.com/platform/ai-monitoring> — lighter prompt-CMS / APM-native monitoring.
 - **[whatbroke](https://github.com/arthi-arumugam-git/whatbroke)** — <https://github.com/arthi-arumugam-git/whatbroke> · *tool* — OSS CLI that diffs two agent trace files (JSONL) before/after a model or prompt change: dropped tool calls, drifted args, reordering, cost/latency/outcome deltas; multi-sample flap rates demote baseline flakiness so only real regressions surface. Offline, deterministic, no judge or API keys; CI-gateable exit codes. 🆕
+- **[Future AGI](https://github.com/future-agi/future-agi)** — <https://github.com/future-agi/future-agi> — 🆕 OSS (Apache-2.0), self-hostable: code-based agent evals (tool-call accuracy, trajectory match, step count) + custom LLM-as-judge evals, OTLP trace ingest, and an OpenAI-compatible gateway that runs PII and prompt-injection guardrails inline.
 
 ### 5g · Tracing standards
 - **[OpenInference](https://github.com/Arize-ai/openinference)** — Arize — <https://github.com/Arize-ai/openinference> — semantic conventions for agent traces (tool/args/observation/latency/cost).
