@@ -255,6 +255,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Lost in Simulation](https://arxiv.org/abs/2601.17087)** — <https://arxiv.org/abs/2601.17087> · *paper* — Simulated users are unreliable proxies (~9pp swings by simulator choice; demographic miscalibration).
 - **[SWE-bench: Can LMs Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)** — Jimenez, Yang, … Press, Narasimhan — <https://arxiv.org/abs/2310.06770> · <https://www.swebench.com> (Verified: `.../verified.html`) · *paper/site*.
 - **[Task-Specific LLM Evals that Do & Don't Work](https://eugeneyan.com/writing/evals/)** — Eugene Yan — <https://eugeneyan.com/writing/evals/> · *blog* — Off-the-shelf evals rarely transfer; accuracy is too coarse.
+- **[Which AI Model Should You Run for Agent Work? 11 Models, 5 Real Tasks, Receipts](https://engineering.kenmazaika.com/blog/best-ai-model-for-agent-work/)** — Ken Mazaika — <https://engineering.kenmazaika.com/blog/best-ai-model-for-agent-work/> · *blog + receipt pack* — A dated 11-model evaluation across five identical agent tasks. The receipt pack contains prompts, outputs, and scoring. 🆕
 - **[Andrej Karpathy on evals](https://x.com/karpathy/status/1896266683301659068)** — <https://x.com/karpathy/status/1896266683301659068> · *post* — "We make a number of specific recommendations…" (the eval-as-narrow critique).
 
 - **[A Careful Examination of LLM Performance on Grade School Arithmetic (GSM1k)](https://arxiv.org/abs/2405.00332)** — Hugh Zhang et al. (Scale AI) — <https://arxiv.org/abs/2405.00332> · *paper* — Held-out GSM1k replica of GSM8k exposes up to 8% accuracy drop and partial memorization (Mistral/Phi) — the canonical method for measuring benchmark overfitting/contamination via a matched holdout.
@@ -586,6 +587,5 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
