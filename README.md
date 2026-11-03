@@ -205,6 +205,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[verl](https://github.com/volcengine/verl)** — <https://github.com/volcengine/verl> (now `verl-project/verl`) — de-facto industry RLVR trainer (PPO/GRPO). ~22k★.
 - **[OpenRLHF](https://github.com/OpenRLHF/OpenRLHF)** — <https://github.com/OpenRLHF/OpenRLHF> · **SkyRL** — <https://github.com/NovaSky-AI/SkyRL> · **AReaL** — <https://github.com/areal-project/AReaL> · **ROLL** — <https://github.com/alibaba/ROLL> · **rLLM** — <https://github.com/agentica-project/rllm> · **TRL** — <https://github.com/huggingface/trl> — the RL-training stack agents are post-trained + eval'd in.
 - **[Open Reward Standard (ORS)](https://docs.openreward.ai/)** — General Reasoning — <https://docs.openreward.ai/> (PyPI `openreward`) — 🆕 MCP-extending spec adding RL primitives (episodes, rewards, curriculum). ⚠️ no single canonical repo confirmed.
+- **[FeatureBench](https://github.com/LiberCoders/FeatureBench)** — LiberCoders — Discovers GitHub repositories, builds reproducible test environments, and generates test-validated coding tasks through extensible adapters for training and evaluation. 🆕
 
 ### 5f · Observability + eval platforms (tracing · datasets · online/offline · CI)
 - **[Arize Phoenix](https://github.com/Arize-ai/phoenix)** — <https://github.com/Arize-ai/phoenix> — OSS OTel tracing + response/retrieval evals + datasets/experiments. **(MUST)**
