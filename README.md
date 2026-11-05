@@ -278,7 +278,10 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Benchmarking the Benchmarks: A Validity Audit of Tool-Calling Evaluation](https://arxiv.org/abs/2607.02577)** — Bhat, Vaghasiya, Mohsin, Aali — <https://arxiv.org/abs/2607.02577> · *paper (Jun/Jul 2026)* — Cross-benchmark validity audit of BFCL v4, τ²-Bench, LiveMCPBench, and MCP-Atlas across 496 expert-reviewed tasks. Key findings: "92 evaluator-human disagreements, corresponding to an 18.5% misalignment rate"; 23 repeated identical LiveMCPBench runs produce scores ranging from 57.9% to 76.8% — "a spread of 18.9 percentage points" large enough to flip leaderboard conclusions. Introduces Tool-Veritas and Harness Lab tooling for practitioners auditing their own benchmark choices. 🆕
 - **[Prediction: A Frontier Open Source LLM Will Be Released On 3rd December 2026](https://blog.doubleword.ai/frontier-os-llm)** — Jamie Dborin (Doubleword) — <https://blog.doubleword.ai/frontier-os-llm> · *blog* — Extrapolates the Artificial Analysis Intelligence Index across 18 constituent benchmarks to forecast the open-vs-closed capability gap; a naive fit of the headline index points to convergence by 3 Dec 2026, but the average per-benchmark lag holds steady at ~5 months — a worked cautionary case in reading trends off an aggregate leaderboard index rather than its components. 🆕
 
+- **[Benchmark Radar](https://github.com/ktwu01/benchmark-radar)** — Wu et al. — <https://arxiv.org/abs/2609.11115> · *paper/tool* — A living benchmark catalog with daily discovery and source-linked score histories; helps agent-evaluation researchers inspect prior art and the evidence behind saturation and score comparisons. 🆕
+
 **Must-reads:** Press · Kapoor et al. · OpenAI (SWE-bench Verified) · Leaderboard Illusion
+
 
 ## 7 · Evals & RL environments (verifiers, reward design, difficulty calibration, lifecycle)
 
