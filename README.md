@@ -459,6 +459,8 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 
 ---
 
+- **[Memory Poisoning Lab](https://github.com/RishabhPande/memory-poison-lab)** - Rishabh Pande - <https://github.com/RishabhPande/memory-poison-lab> · *tool* - Local memory-poisoning exercises with origin-aware defenses and conflict-scoped repair across reference, ChromaDB and sqlite-vec backends. ⚠️ Synthetic targets and a scripted deterministic agent, not real-LLM safety measurements.
+
 ## 🎙 Talks, podcasts & slides (transcribed + noted)
 
 
@@ -587,6 +589,5 @@ PRs welcome. Keep the bar high: **show your work** (real data/code/war-stories b
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](LICENSE)
 
 To the extent possible under law, [BenchFlow](https://benchflow.ai) and contributors have waived all copyright and related rights to this work (CC0 1.0). The linked resources remain under their respective licenses.
-
 
 
