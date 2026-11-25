@@ -221,6 +221,7 @@ Most "awesome" lists are link dumps. This one is **annotated and verified**: eve
 - **[Langtrace](https://github.com/Scale3-Labs/langtrace)** — <https://github.com/Scale3-Labs/langtrace> — OSS OTel-standard tracing + manual scoring + dataset mgmt.
 - **[WhyLabs / LangKit](https://github.com/whylabs/langkit)** — <https://github.com/whylabs/langkit> — high-throughput text-signal metrics (toxicity, PII, jailbreak) for production monitoring.
 - **[Portkey](https://github.com/portkey-ai/gateway)** — <https://github.com/portkey-ai/gateway> — 🆕 OSS gateway + 60+ guardrails + observability (fully open-sourced Mar 2026).
+- **[Bifrost](https://github.com/maximhq/bifrost)** — <https://github.com/maximhq/bifrost> — Go-native OpenAI-compatible gateway for multi-provider routing, failover, guardrails, usage controls, MCP, and production observability. 🆕
 - **[Datadog LLM Observability](https://www.datadoghq.com/product/ai/llm-observability/)** — <https://www.datadoghq.com/product/ai/llm-observability/> — 🆕 evaluators + golden datasets + **LLM Experiments** + AI Agent Monitoring (Jun 2025).
 - **[Fiddler AI](https://www.fiddler.ai/)** — <https://www.fiddler.ai/> — 🆕 Trust Models (Safety/PII/Faithfulness) scoring in <100ms; Guardrails + agentic observability.
 - **[PromptLayer](https://www.promptlayer.com/)** — <https://www.promptlayer.com/> · **New Relic AI Monitoring** — <https://newrelic.com/platform/ai-monitoring> — lighter prompt-CMS / APM-native monitoring.
